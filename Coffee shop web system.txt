@@ -1,0 +1,82 @@
+Coffee shop web system
+
+
+1. products
+Stores every item you sell.
+
+id (Primary Key): Unique ID for the product.
+
+name (Text): e.g., "Latte", "Croissant".
+
+price (Decimal/Float): The selling price.
+
+category (Text): e.g., "Hot Drink", "Pastry".
+
+is_available (Boolean): If it's for sale right now.
+
+2. employees
+Stores your staff information.
+
+id (Primary Key): Unique ID for the employee.
+
+first_name (Text): e.g., "Alex".
+
+last_name (Text): e.g., "Smith".
+
+role (Text): e.g., "Barista", "Manager".
+
+is_active (Boolean): If they are a current employee.
+
+3. orders
+Records every single transaction.
+
+id (Primary Key): Unique ID for the order.
+
+employee_id (Foreign Key): Links to the employees table.
+
+order_date (Timestamp): Date and time of the sale.
+
+total_amount (Decimal/Float): Total cost of this order.
+
+payment_method (Text): e.g., "Cash", "Credit Card".
+
+4. order_items
+Connects orders with products.
+
+id (Primary Key): Unique ID for this line item.
+
+order_id (Foreign Key): Links to the orders table.
+
+product_id (Foreign Key): Links to the products table.
+
+quantity (Integer): How many of this item were sold.
+
+price_at_time_of_purchase (Decimal/Float): The item's price at the moment of sale.
+
+5. suppliers
+Stores information about who you buy your ingredients from.
+
+id (Primary Key): Unique ID for the supplier.
+
+name (Text): e.g., "City Roasters", "Artisan Bakery Co.".
+
+contact_person (Text): Your contact at the company.
+
+email (Text): Supplier's email.
+
+phone_number (Text): Supplier's phone.
+
+6. ingredients
+Tracks the raw materials you have in stock.
+
+id (Primary Key): Unique ID for the ingredient.
+
+supplier_id (Foreign Key): Links to the suppliers table.
+
+name (Text): e.g., "Espresso Beans", "Whole Milk", "Almond Croissant".
+
+quantity_in_stock (Decimal/Float): How much you currently have.
+
+unit_of_measure (Text): e.g., "kg", "liters", "units".
+
+reorder_level (Integer): The stock level at which you need to reorder.
