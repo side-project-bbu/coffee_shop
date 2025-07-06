@@ -1,164 +1,272 @@
-// frontend/src/App.jsx
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Employee from './pages/employee';
-import Header from './components/Header';
+import { useState, useEffect } from 'react'
+import CartSidebar from './CartSidebar'
 
 function App() {
-  const [message, setMessage] = useState('');
-  
-  // Sidebar state
-  const [activeSection, setActiveSection] = useState('employees');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    price: '',
+    category: '',
+    is_available: true
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
+  const [cart, setCart] = useState([])
 
-  // Check FastAPI connection on component mount
+  // Fetch products from FastAPI backend
   useEffect(() => {
-    axios.get('http://localhost:8000/') // Adjust port if your FastAPI runs on a different one
-      .then(response => {
-        setMessage("Connected");
-      })
-      .catch(error => {
-        console.error("Error connecting to FastAPI:", error);
-        setMessage("Error connecting to FastAPI");
-      });
-  }, []);
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/products')
+        if (!response.ok) {
+          throw new Error('Failed to fetch products')
+        }
+        const data = await response.json()
+        setProducts(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // Reusable NavButton component for cleaner code
-  const NavButton = ({ section, icon, children }) => (
-    <button
-      onClick={() => setActiveSection(section)}
-      className={`w-full flex items-center py-2 rounded-md transition-colors ${
-        sidebarCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
-      } ${
-        activeSection === section
-          ? 'bg-blue-500 text-white'
-          : 'text-gray-600 hover:bg-gray-100'
-      }`}
-      title={sidebarCollapsed ? children : ''}
-    >
-      {icon}
-      {!sidebarCollapsed && <span>{children}</span>}
-    </button>
-  );
+    fetchProducts()
+  }, [])
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setNewProduct((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }))
+  }
+
+  const handleAddProduct = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setSubmitError(null)
+    try {
+      const response = await fetch('http://localhost:8000/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...newProduct,
+          price: parseFloat(newProduct.price)
+        })
+      })
+      if (!response.ok) {
+        throw new Error('Failed to add product')
+      }
+      setShowModal(false)
+      setNewProduct({ name: '', price: '', category: '', is_available: true })
+      // Refresh product list
+      setLoading(true)
+      setError(null)
+      const res = await fetch('http://localhost:8000/api/products')
+      setProducts(await res.json())
+    } catch (err) {
+      setSubmitError(err.message)
+    } finally {
+      setSubmitting(false)
+      setLoading(false)
+    }
+  }
+
+  const handleAddToCart = (product) => {
+    setCart((prev) => [...prev, product])
+  }
+
+  const handleRemoveFromCart = (idx) => {
+    setCart((prev) => prev.filter((_, i) => i !== idx))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading products...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <p>Error: {error}</p>
+            <p className="text-sm mt-2">Make sure your FastAPI server is running on http://localhost:8000</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 bg-white border-r border-gray-200 shadow-md flex flex-col`}>
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-gray-200">
-          <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
-            <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-              </svg>
-            </div>
-            {!sidebarCollapsed && (
-              <div>
-                <h1 className="font-bold text-gray-800 text-md">Coffee_Shop</h1>
+    <div className="min-h-screen bg-gray-100 flex">
+      <div className="flex-1">
+        {/* Header */}
+        <header className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center">
+                <h1 className="text-2xl font-bold text-gray-900">☕ Coffee Shop</h1>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        </header>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">
-            <li>
-              <NavButton 
-                section="dashboard" 
-                icon={<svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
-              >
-                Dashboard
-              </NavButton>
-            </li>
-            <li>
-              <NavButton 
-                section="employees" 
-                icon={<svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-8 8a4 4 0 018 0M12 17v1m-6 4h12a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" /></svg>}
-              >
-                Employees
-              </NavButton>
-            </li>
-            <li>
-              <NavButton 
-                section="products" 
-                icon={<svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
-              >
-                Products
-              </NavButton>
-            </li>
-            <li>
-              <NavButton 
-                section="orders" 
-                icon={<svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>}
-              >
-                Orders
-              </NavButton>
-            </li>
-            <li>
-              <NavButton 
-                section="analytics" 
-                icon={<svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
-              >
-                Analytics
-              </NavButton>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div className="p-4">
-          <div className="flex justify-center">
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Our Products</h2>
+              <p className="text-gray-600">Discover our amazing coffee selection</p>
+            </div>
             <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow transition-colors"
+              onClick={() => setShowModal(true)}
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={sidebarCollapsed ? "M9 5l7 7-7 7" : "M15 19l-7-7 7-7"} />
-              </svg>
+              + New Product
             </button>
           </div>
-        </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header - Only show for sections that don't have their own header */}
-        {activeSection === 'dashboard' && (
-          <Header 
-            title="Dashboard" 
-            description="Overview of your coffee shop performance"
-          />
-        )}
-        {activeSection === 'products' && (
-          <Header 
-            title="Product Catalog" 
-            description="Manage your coffee shop menu and products"
-          />
-        )}
-        {activeSection === 'orders' && (
-          <Header 
-            title="Order History" 
-            description="View and manage customer orders"
-          />
-        )}
-        {activeSection === 'analytics' && (
-          <Header 
-            title="Sales Analytics" 
-            description="Track your business performance and insights"
-          />
-        )}
+          {/* Modal for new product */}
+          {showModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+              <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+                <button
+                  className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl"
+                  onClick={() => setShowModal(false)}
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+                <h3 className="text-xl font-bold mb-4">Add New Product</h3>
+                <form onSubmit={handleAddProduct} className="space-y-4">
+                  <div>
+                    <label className="block text-gray-700 mb-1">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={newProduct.name}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 mb-1">Price (in dollars)</label>
+                    <input
+                      type="number"
+                      name="price"
+                      value={newProduct.price}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 mb-1">Category</label>
+                    <input
+                      type="text"
+                      name="category"
+                      value={newProduct.category}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="is_available"
+                      checked={newProduct.is_available}
+                      onChange={handleInputChange}
+                      className="mr-2"
+                    />
+                    <label className="text-gray-700">Available</label>
+                  </div>
+                  {submitError && (
+                    <div className="text-red-600 text-sm">{submitError}</div>
+                  )}
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition-colors disabled:opacity-50"
+                    disabled={submitting}
+                  >
+                    {submitting ? 'Adding...' : 'Add Product'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
 
-        {/* Content Area */}
-        <div className={`flex-1 overflow-auto ${activeSection === 'employees' ? '' : 'p-6'}`}>
-          {activeSection === 'employees' && <Employee />}
-          {/* Render other components based on activeSection here */}
-        </div>
+          {/* Products Grid */}
+          {products.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-gray-500">
+                <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+                <p className="text-gray-500">Add some products to your coffee shop!</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-gray-900">{product.name}</h3>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        product.is_available 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {product.is_available ? 'Available' : 'Out of Stock'}
+                      </span>
+                    </div>
+                    <div className="mb-4">
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded-full">
+                        {product.category}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-bold text-gray-900">
+                        ${parseFloat(product.price).toFixed(2)}
+                      </span>
+                      <button 
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          product.is_available
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                        disabled={!product.is_available}
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        {product.is_available ? 'Add to Cart' : 'Unavailable'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
       </div>
+      {/* Cart Sidebar */}
+      <CartSidebar cart={cart} onRemove={handleRemoveFromCart} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
