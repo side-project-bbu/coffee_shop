@@ -1,116 +1,92 @@
 <template>
-  <div class="employee-page">
-    <h1>Employee Management</h1>
-    <div class="page-content">
-      <div class="card">
-        <h2>Employee Overview</h2>
-        <p>Welcome to the employee management section. Here you can:</p>
-        <ul>
-          <li>View all employees</li>
-          <li>Add new employees</li>
-          <li>Edit employee information</li>
-          <li>Manage employee roles and permissions</li>
-        </ul>
-      </div>
-      
-      <div class="card">
-        <h3>Quick Actions</h3>
-        <div class="button-group">
-          <button class="btn btn-primary">Add Employee</button>
-          <button class="btn btn-secondary">View All</button>
-          <button class="btn btn-secondary">Export Data</button>
-        </div>
-      </div>
+  <div class="flex flex-col items-center justify-center h-full text-center">
+    <div class="flex justify-between items-center mb-6 w-full px-10">
+      <h1 class="text-3xl font-extrabold text-gray-800">Employee List</h1>
+      <button @click="addNewEmployee" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Add New Employee
+      </button>
+    </div>
+    <div class="overflow-x-auto w-full h-full px-10">
+      <table class="table-auto border-collapse w-full text-left bg-white shadow-md rounded-lg">
+        <thead>
+          <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-3 px-6 border-b">ID</th>
+            <th class="py-3 px-6 border-b">Name</th>
+            <th class="py-3 px-6 border-b">Role</th>
+            <th class="py-3 px-6 border-b">Active</th>
+            <th class="py-3 px-6 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="employee in employees" :key="employee.id" class="hover:bg-gray-50">
+            <td class="py-3 px-6 border-b">{{ employee.id }}</td>
+            <td class="py-3 px-6 border-b">{{ employee.first_name }} {{ employee.last_name }}</td>
+            <td class="py-3 px-6 border-b">{{ employee.role }}</td>
+            <td class="py-3 px-6 border-b">{{ employee.is_active ? 'Yes' : 'No' }}</td>
+            <td class="py-3 px-6 border-b">
+              <button @click="confirmDelete(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
-<script setup>
-// Employee page component
+<script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+export default {
+  setup() {
+    const employees = ref([]);
+
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/employees');
+        employees.value = response.data;
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+
+    const deleteEmployee = async (id) => {
+      try {
+        await axios.delete(`http://localhost:8000/api/employees/${id}`);
+        fetchEmployees(); // Refresh the list
+      } catch (error) {
+        console.error('Error deleting employee:', error);
+      }
+    };
+
+    const confirmDelete = (id) => {
+      if (confirm('Are you sure you want to delete this employee?')) {
+        deleteEmployee(id);
+      }
+    };
+
+    const addNewEmployee = () => {
+      // This would typically navigate to a new page or open a modal
+      // For now, it will just log to the console.
+      console.log('Add new employee clicked');
+    };
+
+    onMounted(() => {
+      fetchEmployees();
+    });
+
+    return {
+      employees,
+      deleteEmployee,
+      confirmDelete,
+      addNewEmployee
+    };
+  }
+};
 </script>
 
-<style scoped>
-.employee-page {
-  padding: 2rem;
-}
-
-.employee-page h1 {
-  color: #2c3e50;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-}
-
-.page-content {
-  display: grid;
-  gap: 2rem;
-}
-
-.card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-}
-
-.card h2 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-.card h3 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-.card p {
-  color: #666;
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.card ul {
-  color: #666;
-  line-height: 1.6;
-}
-
-.card li {
-  margin-bottom: 0.5rem;
-}
-
-.button-group {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #42b883;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #369870;
-}
-
-.btn-secondary {
-  background: #f8f9fa;
-  color: #2c3e50;
-  border: 1px solid #e0e0e0;
-}
-
-.btn-secondary:hover {
-  background: #e9ecef;
-}
+<style>
+/* Add any custom styles here */
 </style>

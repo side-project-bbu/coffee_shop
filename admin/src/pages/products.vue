@@ -1,143 +1,86 @@
 <template>
-  <div class="products-page">
-    <h1>Product Management</h1>
-    <div class="page-content">
-      <div class="card">
-        <h2>Product Overview</h2>
-        <p>Welcome to the product management section. Here you can:</p>
-        <ul>
-          <li>View all coffee products</li>
-          <li>Add new products to the menu</li>
-          <li>Update product prices and descriptions</li>
-          <li>Manage product categories and availability</li>
-          <li>Track inventory levels</li>
-        </ul>
-      </div>
-      
-      <div class="card">
-        <h3>Quick Actions</h3>
-        <div class="button-group">
-          <button class="btn btn-primary">Add Product</button>
-          <button class="btn btn-secondary">View Menu</button>
-          <button class="btn btn-secondary">Check Inventory</button>
-          <button class="btn btn-secondary">Update Prices</button>
-        </div>
-      </div>
-      
-      <div class="card">
-        <h3>Popular Categories</h3>
-        <div class="categories">
-          <span class="category">☕ Coffee</span>
-          <span class="category">🧊 Cold Drinks</span>
-          <span class="category">🥐 Pastries</span>
-          <span class="category">🍰 Desserts</span>
-        </div>
-      </div>
+  <div class="flex flex-col items-center justify-center h-full text-center">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Product List</h1>
+    <button @click="addNewProduct" class="mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      Add New Product
+    </button>
+    <div class="overflow-x-auto w-full h-full px-10">
+      <table class="table-auto border-collapse w-full text-left bg-white shadow-md rounded-lg">
+        <thead>
+          <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-3 px-6 border-b">ID</th>
+            <th class="py-3 px-6 border-b">Name</th>
+            <th class="py-3 px-6 border-b">Price</th>
+            <th class="py-3 px-6 border-b">Category</th>
+            <th class="py-3 px-6 border-b">Available</th>
+            <th class="py-3 px-6 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id" class="hover:bg-gray-50">
+            <td class="py-3 px-6 border-b">{{ product.id }}</td>
+            <td class="py-3 px-6 border-b">{{ product.name }}</td>
+            <td class="py-3 px-6 border-b">{{ product.price }}</td>
+            <td class="py-3 px-6 border-b">{{ product.category }}</td>
+            <td class="py-3 px-6 border-b">{{ product.is_available ? 'Yes' : 'No' }}</td>
+            <td class="py-3 px-6 border-b">
+              <button @click="deleteProduct(product.id)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
-<script setup>
-// Products page component
+<script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+export default {
+  setup() {
+    const products = ref([]);
+
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/products');
+        products.value = response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    const deleteProduct = async (id) => {
+      if (confirm('Are you sure you want to delete this product?')) { // Confirmation prompt
+        try {
+          await axios.delete(`http://localhost:8000/api/products/${id}`);
+          products.value = products.value.filter(product => product.id !== id);
+        } catch (error) {
+          console.error('Error deleting product:', error);
+        }
+      }
+    };
+
+    const addNewProduct = () => {
+      // Add new product logic (e.g., navigation to a form or opening a modal)
+      console.log('Add new product button clicked');
+    };
+
+    onMounted(() => {
+      fetchProducts();
+    });
+
+    return {
+      products,
+      deleteProduct,
+      addNewProduct
+    };
+  }
+};
 </script>
 
-<style scoped>
-.products-page {
-  padding: 2rem;
-}
-
-.products-page h1 {
-  color: #2c3e50;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-}
-
-.page-content {
-  display: grid;
-  gap: 2rem;
-}
-
-.card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-}
-
-.card h2 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-.card h3 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-.card p {
-  color: #666;
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.card ul {
-  color: #666;
-  line-height: 1.6;
-}
-
-.card li {
-  margin-bottom: 0.5rem;
-}
-
-.button-group {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #42b883;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #369870;
-}
-
-.btn-secondary {
-  background: #f8f9fa;
-  color: #2c3e50;
-  border: 1px solid #e0e0e0;
-}
-
-.btn-secondary:hover {
-  background: #e9ecef;
-}
-
-.categories {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.category {
-  background: #f8f9fa;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  border: 1px solid #e0e0e0;
-}
+<style>
+/* Add any custom styles here */
 </style>

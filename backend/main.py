@@ -13,7 +13,8 @@ app = FastAPI()
 # to make requests to your FastAPI backend.
 origins = [
     "http://localhost:3000",  # Replace with your React app's URL
-    "http://localhost:5173",  # If using Vite (common with React)
+    "http://localhost:5173",  # If using Vite (common with React and Vue.js)
+    "http://localhost:5174",  # If using Vite (common with React and Vue.js)
     # Add other origins if your frontend is deployed elsewhere
 ]
 

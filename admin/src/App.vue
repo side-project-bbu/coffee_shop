@@ -1,37 +1,39 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Sidebar from './components/sidebar.vue'
-import Employee from './pages/employee.vue'
-import Products from './pages/products.vue'
+import Header from './components/header.vue'
 
-const currentPage = ref('employee')
-
-const handleNavigation = (page) => {
-  currentPage.value = page
-}
+const route = useRoute()
+const pageTitle = computed(() => {
+  switch (route.name) {
+    case 'Employee':
+      return 'Employee Management'
+    case 'Products':
+      return 'Product Management'
+    case 'Dashboard':
+      return 'Dashboard'
+    default:
+      return 'Wecome to the Coffee Shop Admin Panel!'
+  }
+})
 </script>
 
 <template>
-  <div style="display: flex;">
-    <Sidebar @navigate="handleNavigation" :current-page="currentPage" />
-    <div style="margin-left: 200px; width: 100%; padding: 2rem;">
-      <Employee v-if="currentPage === 'employee'" />
-      <Products v-if="currentPage === 'products'" />
+  <div class="min-screen h-screen flex">
+    <!-- Sidebar -->
+    <div class="w-[220px] h-full bg-gray-500">
+      <Sidebar />
+    </div>
+    <div class="w-full h-full">
+      <!-- Header -->
+      <div class="h-[70px] bg-gray-100">
+        <Header :pageTitle="pageTitle" />
+      </div>
+      <!-- Main Content -->
+      <div class="h-[calc(100%-70px)] bg-gray-300">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
