@@ -20,7 +20,7 @@
           <tr v-for="product in products" :key="product.id" class="hover:bg-gray-50">
             <td class="py-3 px-6 border-b">{{ product.id }}</td>
             <td class="py-3 px-6 border-b">{{ product.name }}</td>
-            <td class="py-3 px-6 border-b">{{ product.price }}</td>
+            <td class="py-3 px-6 border-b">${{ product.price }}</td>
             <td class="py-3 px-6 border-b">{{ product.category }}</td>
             <td class="py-3 px-6 border-b">{{ product.is_available ? 'Yes' : 'No' }}</td>
             <td class="py-3 px-6 border-b">

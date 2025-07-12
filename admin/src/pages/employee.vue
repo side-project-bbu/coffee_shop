@@ -20,7 +20,7 @@
         <tbody>
           <tr v-for="employee in employees" :key="employee.id" class="hover:bg-gray-50">
             <td class="py-3 px-6 border-b">{{ employee.id }}</td>
-            <td class="py-3 px-6 border-b">{{ employee.first_name }} {{ employee.last_name }}</td>
+            <td class="py-3 px-6 border-b">{{ employee.last_name }} {{ employee.first_name }}</td>
             <td class="py-3 px-6 border-b">{{ employee.role }}</td>
             <td class="py-3 px-6 border-b">{{ employee.is_active ? 'Yes' : 'No' }}</td>
             <td class="py-3 px-6 border-b">
