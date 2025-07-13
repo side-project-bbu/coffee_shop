@@ -14,9 +14,18 @@
           <label for="isActive">Is Active</label>
         </div>
         
-        <div class="flex justify-end">
-          <button type="button" @click="$emit('close')" class="mr-2 px-4 py-2 bg-red-500 text-white rounded">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">
+        <div class="grid grid-cols-12/2 gap-2">
+          <button
+            type="button"
+            @click="$emit('close')"
+            class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded"
+          >
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>
         </div>
