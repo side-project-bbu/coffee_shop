@@ -2,8 +2,8 @@
   <div class="flex flex-col items-center justify-center h-full text-center">
     <div class="flex justify-between items-center mb-6 w-full px-10">
       <h1 class="text-3xl font-extrabold text-gray-800">Employee List</h1>
-      <button @click="addNewEmployee" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
-        Add New Employee
+      <button @click="addNewEmployee" class="fixed bottom-8 right-8 z-50 bg-blue-500 hover:bg-blue-600 text-white font-bold w-16 h-16 flex items-center justify-center text-4xl rounded-full shadow-lg p-0">
+        <span class="w-full h-full flex items-center justify-center mb-2">+</span>
       </button>
     </div>
 
@@ -28,10 +28,10 @@
             <td class="py-3 px-6 border-b"></td>
             <td class="py-3 px-6 border-b">
               <div class="flex gap-2">
-                <button @click="confirmDelete(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                <button @click="confirmDelete(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 w-20 rounded">
                   Delete
                 </button>
-                <button @click="editEmployee(employee)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+                <button @click="editEmployee(employee)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 w-20 rounded">
                   Edit
                 </button>
               </div>
