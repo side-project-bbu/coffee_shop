@@ -17,27 +17,30 @@
           placeholder="Price"
           class="border px-3 py-2 w-full mb-3"
         />
-        <input
-          type="text"
-          v-model="category"
-          placeholder="Category"
-          class="border px-3 py-2 w-full mb-3"
-        />
+        
+        <select v-model="category" name="Categories" id="Categories" class="border px-3 py-2 w-full mb-3">
+          <option value="" disabled>Select Category</option>
+          <option value="Hot Cafe">Hot Cafe</option>
+          <option value="Soft Drink">Soft Drink</option>
+          <option value="Drink With Cream">Drink With Cream</option>
+          <option value="Cake">Cake</option>
+          
+        </select>
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="isAvailable" v-model="isAvailable" class="mr-2" />
           <label for="isAvailable">Available</label>
         </div>
 
-        <div class="flex justify-end">
+        <div class="grid grid-cols-12 gap-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="mr-2 px-4 py-2 bg-red-500 text-white rounded"
+            class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
           >
             Cancel
           </button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">
+          <button type="submit" class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded">
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>
         </div>

@@ -7,16 +7,32 @@
       <form @submit.prevent="submitForm">
         <input type="text" v-model="firstName" placeholder="First Name" class="border px-3 py-2 w-full mb-3" />
         <input type="text" v-model="lastName" placeholder="Last Name" class="border px-3 py-2 w-full mb-3" />
-        <input type="text" v-model="role" placeholder="Role" class="border px-3 py-2 w-full mb-3" />
+        <!-- <input type="text" v-model="role" placeholder="Role" class="border px-3 py-2 w-full mb-3" /> -->
+         <select v-model="role" class="border px-3 py-2 w-full mb-3">
+  <option value="" disabled>Select Role</option>
+  <option value="Manager">Manager</option>
+  <option value="Barista">Barista</option>
+  <option value="Cashier">Cashier</option>
+  <option value="Cleaner">Cleaner</option>
+</select>
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="isActive" v-model="isActive" class="mr-2">
           <label for="isActive">Is Active</label>
         </div>
         
-        <div class="flex justify-end">
-          <button type="button" @click="$emit('close')" class="mr-2 px-4 py-2 bg-red-500 text-white rounded">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">
+        <div class="grid grid-cols-12 gap-2">
+          <button
+            type="button"
+            @click="$emit('close')"
+            class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded"
+          >
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>
         </div>

@@ -2,11 +2,12 @@
   <div class="flex flex-col items-center justify-center h-full text-center">
     <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Product List</h1>
 
-    <!-- Add Product Button -->
-    <button 
-      @click="openAddForm" 
-      class="mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-      Add New Product
+    <!-- Add Product Button (Floating, bottom right) -->
+    <button
+      @click="openAddForm"
+      class="fixed bottom-8 right-8 z-50 bg-blue-500 hover:bg-blue-600 text-white font-bold w-16 h-16 flex items-center justify-center text-4xl rounded-full shadow-lg p-0"
+    >
+      <span class="w-full h-full flex items-center justify-center mb-2">+</span>
     </button>
 
     <!-- Product Table -->
@@ -32,12 +33,12 @@
             <td class="py-3 px-6 border-b flex gap-2">
               <button 
                 @click="deleteProduct(product.id)" 
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Delete
               </button>
               <button 
                 @click="openEditForm(product)" 
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Edit
               </button>
             </td>
