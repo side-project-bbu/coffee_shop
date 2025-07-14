@@ -60,10 +60,6 @@ id (Primary Key): Unique ID for the supplier.
 
 name (Text): e.g., "City Roasters", "Artisan Bakery Co.".
 
-contact_person (Text): Your contact at the company.
-
-email (Text): Supplier's email.
-
 phone_number (Text): Supplier's phone.
 
 6. ingredients

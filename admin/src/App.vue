@@ -13,6 +13,10 @@ const pageTitle = computed(() => {
       return 'Product Management'
     case 'Dashboard':
       return 'Dashboard'
+    case 'Suppliers':
+      return 'Supplier Management'
+    case 'Add':
+      return 'Add New Item'
     default:
       return 'Wecome to the Coffee Shop Admin Panel!'
   }

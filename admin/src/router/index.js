@@ -3,12 +3,16 @@ import Employee from '../pages/employee.vue'
 import Products from '../pages/products.vue'
 import Welcome from '../pages/welcome.vue'
 import Dashboard from '../pages/dashboard.vue'
+import Suppliers from '../pages/suppliers.vue'
+import Add from '../pages/add.vue'
 
 const routes = [
   { path: '/', name: 'Welcome', component: Welcome },
   { path: '/employee', name: 'Employee', component: Employee },
   { path: '/products', name: 'Products', component: Products },
-   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/suppliers', name: 'Suppliers', component: Suppliers },
+  { path: '/add', name: 'Add', component: Add },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
 ]
 
 const router = createRouter({
