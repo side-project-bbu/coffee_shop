@@ -1,59 +1,78 @@
-# Coffee Shop Management System
+# Coffee Shop Management System Document 
 
-A modern coffee shop management system built with React frontend and FastAPI backend. This application provides a comprehensive solution for managing employees, products, orders, and analytics for your coffee shop business.
+A comprehensive coffee shop management system featuring dual frontends (React for customers and Vue.js for admin) with a powerful FastAPI backend. This full-stack application provides complete solutions for managing employees, products, suppliers, orders, and business analytics.
 
-## 🚀 Features
+## � Project Summary
 
-- **Employee Management**: Add, edit, and manage employee information
-- **Product Catalog**: Manage your coffee shop menu and products
-- **Order History**: View and track customer orders
-- **Analytics Dashboard**: Monitor business performance and insights
-- **Responsive Design**: Modern UI with Tailwind CSS
-- **Real-time Updates**: Seamless communication between frontend and backend
+This coffee shop management system offers:
+- **Customer Interface**: Modern React-based frontend for customer interactions
+- **Admin Dashboard**: Vue.js-powered admin panel for comprehensive business management
+- **Robust Backend**: FastAPI server with SQLite database for reliable data management
+- **Real-time Operations**: Seamless communication between all components
+- **Scalable Architecture**: Modular design for easy expansion and maintenance
 
-## 🛠️ Tech Stack
+## 🛠️ Tools and Frameworks
 
-### Frontend
+### Frontend (Customer Interface)
 - **React 19** - Modern JavaScript library for building user interfaces
-- **Vite** - Fast build tool and development server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Axios** - HTTP client for API requests
-- **ESLint** - Code linting and formatting
+- **Vite 7** - Fast build tool and development server
+- **Tailwind CSS 4** - Utility-first CSS framework for responsive design
+- **ESLint** - Code linting and quality assurance
+
+### Admin Panel
+- **Vue.js 3** - Progressive JavaScript framework for admin interface
+- **Vue Router 4** - Official router for Vue.js applications
+- **Vite 7** - Development server and build tool
+- **Tailwind CSS 4** - Consistent styling across admin panel
+- **Axios** - HTTP client for API communication
 
 ### Backend
 - **FastAPI** - Modern, fast web framework for building APIs with Python
-- **SQLAlchemy** - SQL toolkit and Object-Relational Mapping (ORM)
-- **SQLite** - Lightweight database for development
-- **Pydantic** - Data validation using Python type annotations
+- **SQLAlchemy 2** - SQL toolkit and Object-Relational Mapping (ORM)
+- **SQLite** - Lightweight, serverless database engine
+- **Pydantic 2** - Data validation using Python type annotations
+- **Uvicorn** - ASGI server for running FastAPI applications
 
-## 📋 Prerequisites
+### Development Tools
+- **ESLint** - JavaScript/TypeScript linting
+- **Vite** - Build tooling for both frontends
+- **Python Virtual Environment** - Isolated Python package management
 
-Before running this project, make sure you have the following installed:
+## 🚀 How to Run the Project
 
-- **Node.js** (version 18 or higher) - [Download here](https://nodejs.org/)
-- **Python** (version 3.8 or higher) - [Download here](https://python.org/)
-- **npm** or **yarn** (comes with Node.js)
-- **Git** (optional, for cloning the repository)
+### Prerequisites
+- **Node.js** (version 18 or higher)
+- **Python** (version 3.8 or higher)
+- **npm** (comes with Node.js)
 
-## 🚀 Getting Started
+### Quick Start (Frontend Applications)
 
-Follow these steps to get the project running on your local machine:
-
-### 1. Clone the Repository
-
+Install frontend dependencies:
 ```bash
-git clone <repository-url>
-cd React-FastAPI
+npm install
 ```
 
-### 2. Backend Setup (FastAPI)
+Run both frontend applications with one command:
+```bash
+npm run dev
+```
 
-#### Navigate to the backend directory:
+This will start:
+- **Frontend (React)**: `http://localhost:5173`
+- **Admin Panel (Vue.js)**: `http://localhost:5174`
+
+### Backend Setup (Run Separately)
+
+For the backend, you'll need to run it separately in its own terminal:
+
+### 1. Backend Setup (FastAPI)
+
+Navigate to the backend directory:
 ```bash
 cd backend
 ```
 
-#### Create a virtual environment:
+Create and activate a virtual environment:
 ```bash
 # Windows
 python -m venv venv
@@ -64,104 +83,97 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-#### Install Python dependencies:
+Install dependencies:
 ```bash
-pip install fastapi uvicorn sqlalchemy pydantic
+pip install -r requirements.txt
 ```
 
-#### Start the FastAPI development server:
+Start the FastAPI development server:
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-The backend API will be available at: `http://localhost:8000`
+Backend API will be available at: `http://localhost:8000`
+API documentation: `http://localhost:8000/docs`
 
-You can view the interactive API documentation at: `http://localhost:8000/docs`
+### 2. Frontend Setup (Customer Interface)
 
-### 3. Frontend Setup (React)
-
-#### Open a new terminal and navigate to the frontend directory:
+Open a new terminal and navigate to the frontend directory:
 ```bash
 cd frontend
 ```
 
-#### Install Node.js dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
 
-#### Start the React development server:
+Start the React development server:
 ```bash
 npm run dev
 ```
 
-The frontend application will be available at: `http://localhost:5173`
+Customer frontend will be available at: `http://localhost:5173`
+
+### 3. Admin Panel Setup
+
+Open another terminal and navigate to the admin directory:
+```bash
+cd admin
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Start the Vue.js development server:
+```bash
+npm run dev
+```
+
+Admin panel will be available at: `http://localhost:5174`
 
 ## 🗄️ Database
 
 The application uses SQLite as the database, which is automatically created when you first run the backend server. The database file (`coffee_shop.db`) will be created in the `backend` directory.
-
-### Database Schema
-
-- **Employees**: Stores employee information (id, first_name, last_name, role, is_active)
 
 ## 📁 Project Structure
 
 ```
 React-FastAPI/
 ├── README.md
-├── backend/
-│   ├── main.py              # FastAPI application entry point
-│   ├── database.py          # Database configuration and connection
-│   ├── models.py            # SQLAlchemy database models
-│   ├── coffee_shop.db       # SQLite database file (auto-generated)
-│   └── __pycache__/         # Python cache files
-├── frontend/
-│   ├── package.json         # Node.js dependencies and scripts
-│   ├── vite.config.js       # Vite configuration
-│   ├── eslint.config.js     # ESLint configuration
-│   ├── index.html           # HTML template
+├── backend/                 # FastAPI Backend
+│   ├── main.py             # FastAPI application entry point
+│   ├── database.py         # Database configuration and connection
+│   ├── models.py           # SQLAlchemy database models
+│   ├── requirements.txt    # Python dependencies
+│   ├── coffee_shop.db      # SQLite database file (auto-generated)
+│   └── __pycache__/        # Python cache files
+├── frontend/               # React Customer Interface
+│   ├── package.json        # Node.js dependencies and scripts
+│   ├── vite.config.js      # Vite configuration
+│   ├── eslint.config.js    # ESLint configuration
+│   ├── index.html          # HTML template
 │   ├── src/
-│   │   ├── App.jsx          # Main React component
-│   │   ├── main.jsx         # React entry point
-│   │   ├── index.css        # Global styles
-│   │   ├── components/
-│   │   │   └── Header.jsx   # Header component
-│   │   ├── pages/
-│   │   │   └── employee.jsx # Employee management page
-│   │   └── assets/
-│   │       └── react.svg    # React logo
-│   └── public/
-│       └── vite.svg         # Vite logo
-└── coffee_DB.png            # Database schema diagram
+│   │   ├── App.jsx         # Main React component
+│   │   ├── main.jsx        # React entry point
+│   │   ├── index.css       # Global styles
+│   │   ├── components/     # Reusable React components
+│   │   └── pages/          # Page components
+│   └── public/             # Static assets
+├── admin/                  # Vue.js Admin Panel
+│   ├── package.json        # Node.js dependencies
+│   ├── vite.config.js      # Vite configuration
+│   ├── index.html          # HTML template
+│   ├── src/
+│   │   ├── App.vue         # Main Vue component
+│   │   ├── main.js         # Vue entry point
+│   │   ├── components/     # Vue components
+│   │   ├── pages/          # Admin page components
+│   │   └── router/         # Vue Router configuration
+│   └── public/             # Static assets
+└── coffee_DB.png           # Database schema diagram
 ```
-
-## 🔧 Development Commands
-
-### Backend Commands (from `backend/` directory)
-```bash
-# Start development server
-uvicorn main:app --reload
-
-# Start with custom host/port
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Frontend Commands (from `frontend/` directory)
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run linter
-npm run lint
-```
-
-
 
 **Happy coding! ☕️**

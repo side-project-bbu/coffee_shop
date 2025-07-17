@@ -1,0 +1,29 @@
+{
+  "name": "coffee-shop-system",
+  "version": "1.0.0",
+  "description": "Coffee Shop Management System with React frontend and Vue.js admin panel",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"FRONTEND,ADMIN\" --prefix-colors \"blue,green\" \"npm run dev:frontend\" \"npm run dev:admin\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:admin": "cd admin && npm run dev -- --port 5174",
+    "install": "npm run install:frontend && npm run install:admin",
+    "install:frontend": "cd frontend && npm install",
+    "install:admin": "cd admin && npm install",
+    "build": "npm run build:frontend && npm run build:admin",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "keywords": [
+    "coffee-shop",
+    "react",
+    "vue",
+    "fastapi",
+    "management-system"
+  ],
+  "author": "",
+  "license": "MIT"
+}
