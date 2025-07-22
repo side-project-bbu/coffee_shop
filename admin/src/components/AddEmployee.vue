@@ -25,13 +25,13 @@
             <button
               type="button"
               @click="$emit('close')"
-              class="col-span-4 px-4 py-2 bg-gray-500 text-white rounded"
+              class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
             >
               Cancel
             </button>
             <button
               type="submit"
-              class="col-span-4 px-4 py-2 bg-green-600 text-white rounded"
+              class="col-span-6 px-4 py-2 bg-green-600 text-white rounded"
             >
               Update
             </button>
