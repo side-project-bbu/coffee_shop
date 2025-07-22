@@ -16,8 +16,7 @@
           <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th class="py-3 px-6 border-b">ID</th>
             <th class="py-3 px-6 border-b">Name</th>
-            <th class="py-3 px-5 border-b">Phone Number</th>
-            <th class="py-3 px-6 border-b">Email Address</th>
+            <th class="py-3 px-6 border-b">Phone Number</th>
             <th class="py-3 px-6 border-b">Address</th>
             <th class="py-3 px-6 border-b">Actions</th>
           </tr>
@@ -47,10 +46,10 @@
   </div>
   <ComAddsuppliers
       v-if="showModal"
-      :product="selectedProduct"
+      :supplier="selectedSupplier"
       :mode="formMode"
       @close="showModal = false"
-      @submitted="handleFormSubmit"
+      @submitted="refreshSupplierList"
     />
 </template>
 
@@ -69,7 +68,7 @@ const fetchSuppliers = async () => {
     const response = await axios.get("http://localhost:8000/api/suppliers")
     suppliers.value = response.data
   } catch (error) {
-    console.error("Error fetching suppliers:", error)
+    // console.error("Error fetching suppliers:", error)
   }
 }
 
@@ -78,29 +77,29 @@ const deleteSupplier = async (id) => {
     await axios.delete(`http://localhost:8000/api/suppliers/${id}`)
     suppliers.value = suppliers.value.filter(s => s.id !== id)
   } catch (error) {
-    console.error("Error deleting supplier:", error)
+    // console.error("Error deleting supplier:", error)
   }
 }
 
 const openAddForm = () => {
-  selectedProduct.value = null
+  selectedSupplier.value = null
   formMode.value = 'add'
   showModal.value = true
   
 }
 
-// const openEditForm = (product) => {
-//   selectedProduct.value = { ...product }
-//   formMode.value = 'edit'
-//   showModal.value = true
-// }
+const openEditForm = (product) => {
+  selectedSupplier.value = { ...product }
+  formMode.value = 'edit'
+  showModal.value = true
+}
 
-// const handleFormSubmit = () => {
-//   fetchProducts()
-//   showModal.value = false
-//   selectedProduct.value = null
-//   formMode.value = 'add'
-// }
+const handleFormSubmit = () => {
+  fetchProducts()
+  showModal.value = false
+  selectedSupplier.value = null
+  formMode.value = 'add'
+}
 
 const editSupplier = (supplier) => {
   // Open modal or set supplier to be edited

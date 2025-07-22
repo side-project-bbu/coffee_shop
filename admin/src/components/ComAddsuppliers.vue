@@ -5,47 +5,27 @@
         {{ mode === 'edit' ? 'Edit Supplier' : 'Add Supplier' }}
       </h2>
       <form @submit.prevent="submitForm">
+        <p class="flex items-center mb-2">Supplier Name</p>
         <input
           type="text"
           v-model="name"
-          placeholder="Product Name"
+          placeholder="Supplier Name"
           class="border px-3 py-2 w-full mb-3"
         />
+        <p class="flex items-center mb-2">Phone Number</p>
         <input
-          type="number"
-          v-model="price"
-          placeholder="Price"
+          type="text"
+          v-model="phone_number"
+          placeholder="Phone Number"
           class="border px-3 py-2 w-full mb-3"
         />
-        
+        <p class="flex items-center mb-2">Address</p>
         <input
-          type="number"
-          v-model="price"
-          placeholder="Price"
+          type="text"
+          v-model="address"
+          placeholder="Address"
           class="border px-3 py-2 w-full mb-3"
         />
-        
-        <input
-          type="number"
-          v-model="price"
-          placeholder="Price"
-          class="border px-3 py-2 w-full mb-3"
-        />
-        
-        <select v-model="category" name="Categories" id="Categories" class="border px-3 py-2 w-full mb-3">
-          <option value="" disabled>Select Category</option>
-          <option value="Hot Cafe">Hot Cafe</option>
-          <option value="Soft Drink">Soft Drink</option>
-          <option value="Drink With Cream">Drink With Cream</option>
-          <option value="Cake">Cake</option>
-          
-        </select>
-
-        <div class="flex items-center mb-4">
-          <input type="checkbox" id="isAvailable" v-model="isAvailable" class="mr-2" />
-          <label for="isAvailable">Available</label>
-        </div>
-
         <div class="grid grid-cols-12 gap-2">
           <button
             type="button"
@@ -67,8 +47,9 @@
 import { ref, watch } from 'vue'
 import axios from 'axios'
 
+// Props
 const props = defineProps({
-  product: {
+  supplier: {
     type: Object,
     default: null
   },
@@ -78,55 +59,55 @@ const props = defineProps({
   }
 })
 
+// Emits
 const emit = defineEmits(['close', 'submitted'])
 
+// Form fields
 const name = ref('')
-const price = ref('')
-const category = ref('')
-const isAvailable = ref(false)
+const phone_number = ref('')
+const address = ref('')
 
+// Watch for editing
 watch(
-  () => props.product,
+  () => props.supplier,
   (newVal) => {
     if (props.mode === 'edit' && newVal) {
       name.value = newVal.name || ''
-      price.value = newVal.price || ''
-      category.value = newVal.category || ''
-      isAvailable.value = newVal.is_available || false
+      phone_number.value = newVal.phone_number || ''
+      address.value = newVal.address || ''
     } else {
       name.value = ''
-      price.value = ''
-      category.value = ''
-      isAvailable.value = false
+      phone_number.value = ''
+      address.value = ''
     }
   },
   { immediate: true }
 )
 
+// Submit handler
 const submitForm = async () => {
-  if (!name.value.trim() || !price.value || !category.value.trim()) {
+  if (!name.value.trim() || !phone_number.value.trim() || !address.value.trim()) {
     alert('Please input all required fields')
     return
   }
 
   const data = {
     name: name.value,
-    price: parseFloat(price.value),
-    category: category.value,
-    is_available: isAvailable.value
+    phone_number: phone_number.value,
+    address: address.value
   }
 
   try {
-    if (props.mode === 'edit' && props.product?.id) {
-      await axios.put(`http://localhost:8000/api/products/${props.product.id}`, data)
+    if (props.mode === 'edit' && props.supplier?.id) {
+      await axios.put(`http://localhost:8000/api/suppliers/${props.supplier.id}`, data)
     } else {
-      await axios.post('http://localhost:8000/api/products', data)
+      await axios.post('http://localhost:8000/api/suppliers', data)
     }
 
     emit('submitted')
     emit('close')
   } catch (error) {
-    console.error('Error saving product:', error)
+    console.error('Error saving supplier:', error)
   }
 }
 </script>
