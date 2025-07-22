@@ -1,54 +1,76 @@
 <template>
-  <div class="max-w-4xl mx-auto py-8 flex space-x-8">
-    <!-- Add Role Form + its list -->
-    <div class="w-1/2">
-      <h2 class="text-xl font-semibold mb-2">Add New Role</h2>
-      <div class="flex">
+  <div class="max-w-5xl mx-auto py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- Add Role Form + list -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Add New Role</h2>
+      <form @submit.prevent="createRole" class="flex space-x-3 mb-6">
         <input
           v-model="roleName"
           type="text"
           placeholder="Role name"
-          class="flex-1 px-3 py-2 border rounded"
+          class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
         <button
-          @click="createRole"
-          class="ml-2 px-4 py-2 bg-blue-600 text-white rounded"
+          type="submit"
+          class="px-5 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          :disabled="!roleName"
         >
           Add Role
         </button>
-      </div>
-      <div class="py-4">
-        <h3 class="text-lg font-semibold mb-2">Existing Roles</h3>
-        <ul class="list-disc list-inside">
-          <li v-for="role in roles" :key="role.id">{{ role.name }}</li>
+      </form>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Roles</h3>
+        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
+          <li
+            v-for="role in roles"
+            :key="role.id"
+            class="px-4 py-3 hover:bg-gray-50 transition cursor-default"
+          >
+            {{ role.name }}
+          </li>
+          <li v-if="roles.length === 0" class="px-4 py-3 text-gray-400 italic">
+            No roles found.
+          </li>
         </ul>
       </div>
-    </div>
+    </section>
 
-    <!-- Add Category Form + its list -->
-    <div class="w-1/2">
-      <h2 class="text-xl font-semibold mb-2">Add New Category</h2>
-      <div class="flex">
+    <!-- Add Category Form + list -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Add New Category</h2>
+      <form @submit.prevent="createCategory" class="flex space-x-3 mb-6">
         <input
           v-model="categoryName"
           type="text"
           placeholder="Category name"
-          class="flex-1 px-3 py-2 border rounded"
+          class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
         />
         <button
-          @click="createCategory"
-          class="ml-2 px-4 py-2 bg-green-600 text-white rounded"
+          type="submit"
+          class="px-5 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+          :disabled="!categoryName"
         >
           Add Category
         </button>
-      </div>
-      <div class="py-4">
-        <h3 class="text-lg font-semibold mb-2">Existing Categories</h3>
-        <ul class="list-disc list-inside">
-          <li v-for="cat in categories" :key="cat.id">{{ cat.name }}</li>
+      </form>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Categories</h3>
+        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
+          <li
+            v-for="cat in categories"
+            :key="cat.id"
+            class="px-4 py-3 hover:bg-gray-50 transition cursor-default"
+          >
+            {{ cat.name }}
+          </li>
+          <li v-if="categories.length === 0" class="px-4 py-3 text-gray-400 italic">
+            No categories found.
+          </li>
         </ul>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -62,19 +84,27 @@ const roles = ref([])
 const categories = ref([])
 
 async function fetchRoles() {
-  const res = await axios.get('http://localhost:8000/api/roles')
-  roles.value = res.data
+  try {
+    const res = await axios.get('http://localhost:8000/api/roles')
+    roles.value = res.data
+  } catch (e) {
+    console.error('Error fetching roles:', e)
+  }
 }
 
 async function fetchCategories() {
-  const res = await axios.get('http://localhost:8000/api/categories')
-  categories.value = res.data
+  try {
+    const res = await axios.get('http://localhost:8000/api/categories')
+    categories.value = res.data
+  } catch (e) {
+    console.error('Error fetching categories:', e)
+  }
 }
 
 async function createRole() {
-  if (!roleName.value) return
+  if (!roleName.value.trim()) return
   try {
-    await axios.post('http://localhost:8000/api/roles', { name: roleName.value })
+    await axios.post('http://localhost:8000/api/roles', { name: roleName.value.trim() })
     roleName.value = ''
     fetchRoles()
     alert('Role added successfully')
@@ -85,9 +115,9 @@ async function createRole() {
 }
 
 async function createCategory() {
-  if (!categoryName.value) return
+  if (!categoryName.value.trim()) return
   try {
-    await axios.post('http://localhost:8000/api/categories', { name: categoryName.value })
+    await axios.post('http://localhost:8000/api/categories', { name: categoryName.value.trim() })
     categoryName.value = ''
     fetchCategories()
     alert('Category added successfully')
@@ -104,5 +134,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Add any custom styles here if needed */
+/* No custom styles needed, Tailwind handles it */
 </style>
