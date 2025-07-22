@@ -34,14 +34,14 @@
             <td class="py-3 px-6 border-b">{{ product.is_available ? 'Yes' : 'No' }}</td>
             <td class="py-3 px-6 border-b flex gap-2">
               <button 
-                @click="deleteProduct(product.id)" 
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
-                Delete
-              </button>
-              <button 
                 @click="openEditForm(product)" 
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Edit
+              </button>
+              <button 
+                @click="deleteProduct(product.id)" 
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
+                Delete
               </button>
             </td>
           </tr>

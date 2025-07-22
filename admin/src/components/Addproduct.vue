@@ -2,22 +2,24 @@
   <div class="fixed inset-0 flex items-center justify-center z-50" style="background-color: rgba(0,0,0,0.4);">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
       <h2 class="text-xl font-bold mb-4">
-        {{ mode === 'edit' ? 'Edit Product' : 'Add New Product' }}
+        {{ mode === 'edit' ? 'Edit Product' : 'Add Product' }}
       </h2>
       <form @submit.prevent="submitForm">
+        <p class="flex items-center mb-2">Product Name</p>
         <input
           type="text"
           v-model="name"
           placeholder="Product Name"
           class="border px-3 py-2 w-full mb-3"
         />
+        <p class="flex items-center mb-2">Price</p>
         <input
           type="number"
           v-model="price"
           placeholder="Price"
           class="border px-3 py-2 w-full mb-3"
         />
-        
+        <p class="flex items-center mb-2">Select Category</p>
         <select v-model="category" class="border px-3 py-2 w-full mb-3">
           <option value="" disabled>Select Category</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">
@@ -40,7 +42,7 @@
           </button>
           <button
             type="submit"
-            class="flex-1 px-4 py-2 bg-blue-600 text-white rounded"
+            class="flex-1 px-4 py-2 bg-green-600 text-white rounded"
           >
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>

@@ -28,11 +28,11 @@
             <td class="py-3 px-6 border-b"></td>
             <td class="py-3 px-6 border-b">
               <div class="flex gap-2">
+                 <button @click="editEmployee(employee)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 w-20 rounded">
+                  Edit
+                </button>
                 <button @click="confirmDelete(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 w-20 rounded">
                   Delete
-                </button>
-                <button @click="editEmployee(employee)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 w-20 rounded">
-                  Edit
                 </button>
               </div>
             </td>
