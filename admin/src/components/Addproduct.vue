@@ -18,13 +18,11 @@
           class="border px-3 py-2 w-full mb-3"
         />
         
-        <select v-model="category" name="Categories" id="Categories" class="border px-3 py-2 w-full mb-3">
+        <select v-model="category" class="border px-3 py-2 w-full mb-3">
           <option value="" disabled>Select Category</option>
-          <option value="Hot Cafe">Hot Cafe</option>
-          <option value="Soft Drink">Soft Drink</option>
-          <option value="Drink With Cream">Drink With Cream</option>
-          <option value="Cake">Cake</option>
-          
+          <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+            {{ cat.name }}
+          </option>
         </select>
 
         <div class="flex items-center mb-4">
@@ -32,15 +30,18 @@
           <label for="isAvailable">Available</label>
         </div>
 
-        <div class="grid grid-cols-12 gap-2">
+        <div class="flex gap-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
+            class="flex-1 px-4 py-2 bg-red-500 text-white rounded"
           >
             Cancel
           </button>
-          <button type="submit" class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded">
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2 bg-blue-600 text-white rounded"
+          >
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>
         </div>
@@ -50,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({
@@ -68,16 +69,29 @@ const emit = defineEmits(['close', 'submitted'])
 
 const name = ref('')
 const price = ref('')
-const category = ref('')
+const category = ref('')        // holds selected category ID
 const isAvailable = ref(false)
+const categories = ref([])      // fetched category list
 
+// fetch categories on component mount
+const fetchCategories = async () => {
+  try {
+    const res = await axios.get('http://localhost:8000/api/categories')
+    categories.value = res.data
+  } catch (err) {
+    console.error('Failed to load categories:', err)
+  }
+}
+onMounted(fetchCategories)
+
+// populate form when editing
 watch(
   () => props.product,
   (newVal) => {
     if (props.mode === 'edit' && newVal) {
       name.value = newVal.name || ''
       price.value = newVal.price || ''
-      category.value = newVal.category || ''
+      category.value = newVal.category?.id || ''
       isAvailable.value = newVal.is_available || false
     } else {
       name.value = ''
@@ -90,29 +104,43 @@ watch(
 )
 
 const submitForm = async () => {
-  if (!name.value.trim() || !price.value || !category.value.trim()) {
+  if (!name.value.trim() || !price.value || !category.value) {
     alert('Please input all required fields')
     return
   }
-
   const data = {
     name: name.value,
     price: parseFloat(price.value),
-    category: category.value,
+    category_id: category.value,
     is_available: isAvailable.value
   }
-
   try {
     if (props.mode === 'edit' && props.product?.id) {
       await axios.put(`http://localhost:8000/api/products/${props.product.id}`, data)
+      alert('Product updated successfully')
     } else {
       await axios.post('http://localhost:8000/api/products', data)
+      alert('Product added successfully')
     }
-
     emit('submitted')
     emit('close')
-  } catch (error) {
-    console.error('Error saving product:', error)
+  } catch (err) {
+    console.error('Error saving product:', err)
+    alert('Error saving product')
+  }
+}
+
+async function deleteProduct() {
+  if (!props.product?.id) return
+  if (!confirm('Are you sure you want to delete this product?')) return
+  try {
+    await axios.delete(`http://localhost:8000/api/products/${props.product.id}`)
+    alert('Product deleted successfully')
+    emit('submitted')
+    emit('close')
+  } catch (err) {
+    console.error('Error deleting product:', err)
+    alert('Error deleting product')
   }
 }
 </script>

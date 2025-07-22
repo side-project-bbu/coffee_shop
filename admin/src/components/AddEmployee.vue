@@ -7,14 +7,10 @@
       <form @submit.prevent="submitForm">
         <input type="text" v-model="firstName" placeholder="First Name" class="border px-3 py-2 w-full mb-3" />
         <input type="text" v-model="lastName" placeholder="Last Name" class="border px-3 py-2 w-full mb-3" />
-        <!-- <input type="text" v-model="role" placeholder="Role" class="border px-3 py-2 w-full mb-3" /> -->
-         <select v-model="role" class="border px-3 py-2 w-full mb-3">
-  <option value="" disabled>Select Role</option>
-  <option value="Manager">Manager</option>
-  <option value="Barista">Barista</option>
-  <option value="Cashier">Cashier</option>
-  <option value="Cleaner">Cleaner</option>
-</select>
+        <select v-model="role" class="border px-3 py-2 w-full mb-3">
+          <option value="" disabled>Select Role</option>
+          <option v-for="r in roles" :key="r.id" :value="r.id">{{ r.name }}</option>
+        </select>
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="isActive" v-model="isActive" class="mr-2">
@@ -22,19 +18,36 @@
         </div>
         
         <div class="grid grid-cols-12 gap-2">
-          <button
-            type="button"
-            @click="$emit('close')"
-            class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded"
-          >
-            {{ mode === 'edit' ? 'Update' : 'Save' }}
-          </button>
+          <template v-if="props.mode === 'edit'">
+            <button
+              type="button"
+              @click="$emit('close')"
+              class="col-span-4 px-4 py-2 bg-gray-500 text-white rounded"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="col-span-4 px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Update
+            </button>
+          </template>
+          <template v-else>
+            <button
+              type="button"
+              @click="$emit('close')"
+              class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Save
+            </button>
+          </template>
         </div>
       </form>
     </div>
@@ -42,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({
@@ -62,18 +75,28 @@ const firstName = ref('')
 const lastName = ref('')
 const role = ref('')
 const isActive = ref(false)
+const roles = ref([])
+
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:8000/api/roles')
+    roles.value = res.data
+  } catch (e) {
+    console.error('Failed to load roles:', e)
+  }
+})
 
 watch(() => props.employee, (newVal) => {
   if (props.mode === 'edit' && newVal) {
     firstName.value = newVal.first_name
     lastName.value = newVal.last_name
-    role.value = newVal.role
+    role.value = newVal.role_id    // use role_id
     isActive.value = newVal.is_active
   }
 }, { immediate: true })
 
 const submitForm = async () => {
-  if (!firstName.value.trim() || !lastName.value.trim() || !role.value.trim()) {
+  if (!firstName.value.trim() || !lastName.value.trim() || !role.value) {  // check role.value directly
     alert('Please input data')
     return
   }
@@ -81,7 +104,7 @@ const submitForm = async () => {
   const data = {
     first_name: firstName.value,
     last_name: lastName.value,
-    role: role.value,
+    role_id: role.value,
     is_active: isActive.value
   }
 
@@ -96,6 +119,18 @@ const submitForm = async () => {
     emit('close')
   } catch (error) {
     console.error('Failed to submit:', error)
+  }
+}
+
+const deleteEmployee = async () => {
+  if (confirm('Are you sure you want to delete this employee?')) {
+    try {
+      await axios.delete(`http://localhost:8000/api/employees/${props.employee.id}`)
+      emit('submitted')
+      emit('close')
+    } catch (error) {
+      console.error('Failed to delete:', error)
+    }
   }
 }
 </script>

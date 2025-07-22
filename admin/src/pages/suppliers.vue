@@ -19,14 +19,15 @@
             <td class="py-3 px-6 border-b">{{ supplier.id }}</td>
             <td class="py-3 px-6 border-b">{{ supplier.name }}</td>
             <td class="py-3 px-6 border-b">{{ supplier.phone_number }}</td>
+            <td class="py-3 px-6 border-b">{{ supplier.address }}</td>
             <td class="py-3 px-6 border-b">
               <button 
-                @click="deleteProduct(product.id)" 
+                @click="deleteSupplier(supplier.id)" 
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Delete
               </button>
               <button 
-                @click="openEditForm(product)" 
+                @click="openEditForm(supplier)" 
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Edit
               </button>

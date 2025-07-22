@@ -101,6 +101,7 @@ class ProductResponse(ProductBase):
 class SupplierBase(BaseModel):
     name: str
     phone_number: str
+    address: Optional[str] = None
 
 class SupplierCreate(SupplierBase):
     pass
@@ -108,6 +109,7 @@ class SupplierCreate(SupplierBase):
 class SupplierUpdate(BaseModel):
     name: Optional[str] = None
     phone_number: Optional[str] = None
+    address: Optional[str] = None
 
 class SupplierResponse(SupplierBase):
     id: int

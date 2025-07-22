@@ -28,7 +28,9 @@
             <td class="py-3 px-6 border-b">{{ product.id }}</td>
             <td class="py-3 px-6 border-b">{{ product.name }}</td>
             <td class="py-3 px-6 border-b">${{ product.price }}</td>
-            <td class="py-3 px-6 border-b">{{ product.category }}</td>
+            <td class="py-3 px-6 border-b">
+              {{ product.category.name }}
+            </td>
             <td class="py-3 px-6 border-b">{{ product.is_available ? 'Yes' : 'No' }}</td>
             <td class="py-3 px-6 border-b flex gap-2">
               <button 
@@ -61,7 +63,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import ComAddproduct from './ComAddproduct.vue'
+import ComAddproduct from '../components/Addproduct.vue'
 
 const products = ref([])
 const showModal = ref(false)

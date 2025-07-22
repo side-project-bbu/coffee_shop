@@ -58,6 +58,7 @@ class Supplier(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(Text, nullable=False)
     phone_number = Column(Text, nullable=False)
+    address = Column(Text, nullable=True)
 
     def __repr__(self):
-        return f"<Supplier(id={self.id}, name='{self.name}', phone_number='{self.phone_number}')>"
+        return f"<Supplier(id={self.id}, name='{self.name}', phone_number='{self.phone_number}', address='{self.address}')>"

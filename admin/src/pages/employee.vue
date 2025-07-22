@@ -23,7 +23,7 @@
           <tr v-for="employee in employees" :key="employee.id" class="hover:bg-gray-50">
             <td class="py-3 px-6 border-b">{{ employee.id }}</td>
             <td class="py-3 px-6 border-b">{{ employee.last_name }} {{ employee.first_name }}</td>
-            <td class="py-3 px-6 border-b">{{ employee.role }}</td>
+            <td class="py-3 px-6 border-b">{{ employee.roleName }}</td>
             <td class="py-3 px-6 border-b">{{ employee.is_active ? 'Active' : 'Inactive' }}</td>
             <td class="py-3 px-6 border-b"></td>
             <td class="py-3 px-6 border-b">
@@ -54,21 +54,42 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import ComAddEmployee from './ComAddEmployee.vue'
+import ComAddEmployee from '../components/AddEmployee.vue'
 
 const showModal = ref(false)
 const employees = ref([])
+const roles = ref([])                             // added
+
 const selectedEmployee = ref(null)
 const formMode = ref('add')
 
+// new: fetch all roles
+const fetchRoles = async () => {
+  try {
+    const res = await axios.get('http://localhost:8000/api/roles')
+    roles.value = res.data
+  } catch (error) {
+    console.error('Error fetching roles:', error)
+  }
+}
+
+// modified: fetch employees and add roleName property
 const fetchEmployees = async () => {
   try {
     const response = await axios.get('http://localhost:8000/api/employees')
-    employees.value = response.data
+    employees.value = response.data.map(emp => ({
+      ...emp,
+      roleName: (roles.value.find(r => r.id === emp.role_id) || {}).name || ''
+    }))
   } catch (error) {
     console.error('Error fetching employees:', error)
   }
 }
+
+onMounted(async () => {
+  await fetchRoles()
+  fetchEmployees()
+})
 
 const deleteEmployee = async (id) => {
   try {
@@ -103,6 +124,4 @@ const handleFormSubmit = () => {
   selectedEmployee.value = null
   formMode.value = 'add'
 }
-
-onMounted(fetchEmployees)
 </script>
