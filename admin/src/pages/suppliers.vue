@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import ComAddsuppliers from './ComAddsuppliers.vue'
+import ComAddsuppliers from '../components/ComAddsuppliers.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 const selectedProduct = ref(null)
