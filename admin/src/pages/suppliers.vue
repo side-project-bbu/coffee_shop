@@ -3,6 +3,8 @@
     <div class="flex justify-between items-center mb-6 w-full px-10">
       <h1 class="text-3xl font-extrabold text-gray-800">Suppliers</h1>
     </div>
+
+    <!-- Add button -->
     <button
       @click="openAddForm"
       class="fixed bottom-8 right-8 z-50 bg-blue-500 hover:bg-blue-600 text-white font-bold w-16 h-16 flex items-center justify-center text-4xl rounded-full shadow-lg p-0"
@@ -10,6 +12,7 @@
       <span class="w-full h-full flex items-center justify-center mb-2">+</span>
     </button>
 
+    <!-- Table -->
     <div class="overflow-x-auto w-full h-full px-10">
       <table class="table-auto border-collapse w-full text-left bg-white shadow-md rounded-lg">
         <thead>
@@ -29,14 +32,14 @@
             <td class="py-3 px-6 border-b">{{ supplier.address }}</td>
             <td class="py-3 px-6 border-b">
               <button 
-                @click="deleteSupplier(supplier.id)" 
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
-                Delete
-              </button>
-              <button 
-                @click="openEditForm(product)" 
+                @click="openEditForm(supplier)" 
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
                 Edit
+              </button>
+              <button 
+                @click="deleteSupplier(supplier.id)" 
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded ml-2">
+                Delete
               </button>
             </td>
           </tr>
@@ -44,73 +47,81 @@
       </table>
     </div>
   </div>
+
+  <!-- Modal -->
   <ComAddsuppliers
-      v-if="showModal"
-      :supplier="selectedSupplier"
-      :mode="formMode"
-      @close="showModal = false"
-      @submitted="refreshSupplierList"
-    />
+    v-if="showModal"
+    :supplier="selectedSupplier"
+    :mode="formMode"
+    @close="closeModal"
+    @submitted="handleFormSubmit"
+  />
 </template>
 
 <script setup>
-import ComAddsuppliers from '../components/ComAddsuppliers.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-const selectedProduct = ref(null)
-const formMode = ref('add')
+import ComAddsuppliers from '../components/ComAddsuppliers.vue'
+
 const suppliers = ref([])
 const showModal = ref(false)
+const selectedSupplier = ref(null)
+const formMode = ref('add')
 
-
+// Fetch all suppliers
 const fetchSuppliers = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/suppliers")
+    const response = await axios.get('/api/suppliers') // Use proxy
     suppliers.value = response.data
   } catch (error) {
-    // console.error("Error fetching suppliers:", error)
+    console.error('Error fetching suppliers:', error)
   }
 }
 
+// Delete supplier
 const deleteSupplier = async (id) => {
+  if (!confirm('Are you sure you want to delete this supplier?')) return
   try {
-    await axios.delete(`http://localhost:8000/api/suppliers/${id}`)
+    await axios.delete(`/api/suppliers/${id}`)
     suppliers.value = suppliers.value.filter(s => s.id !== id)
   } catch (error) {
-    // console.error("Error deleting supplier:", error)
+    console.error('Error deleting supplier:', error)
   }
 }
 
+// Open form to add
 const openAddForm = () => {
   selectedSupplier.value = null
   formMode.value = 'add'
   showModal.value = true
-  
 }
 
-const openEditForm = (product) => {
-  selectedSupplier.value = { ...product }
+// Open form to edit
+const openEditForm = (supplier) => {
+  selectedSupplier.value = { ...supplier }
   formMode.value = 'edit'
   showModal.value = true
 }
 
+// Handle submit event
 const handleFormSubmit = () => {
-  fetchProducts()
+  fetchSuppliers()
+  closeModal()
+}
+
+// Close modal
+const closeModal = () => {
   showModal.value = false
   selectedSupplier.value = null
   formMode.value = 'add'
 }
 
-const editSupplier = (supplier) => {
-  // Open modal or set supplier to be edited
-  console.log("Edit supplier:", supplier)
-}
-
+// Initial load
 onMounted(() => {
   fetchSuppliers()
 })
 </script>
 
 <style scoped>
-/* Add any component-specific styles here */
+/* Optional: styles */
 </style>
