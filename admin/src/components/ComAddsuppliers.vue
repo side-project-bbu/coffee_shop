@@ -1,9 +1,10 @@
 <template>
   <div class="fixed inset-0 flex items-center justify-center z-50" style="background-color: rgba(0,0,0,0.4);">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
-      <h2 class="text-xl font-bold mb-4">
-        {{ mode === 'edit' ? 'Edit Supplier' : 'Add Supplier' }}
-      </h2>
+      <h2 class="text-xl font-bold mb-4 text-center">
+  {{ mode === 'edit' ? 'Edit Supplier' : 'Add Supplier' }}
+</h2>
+
       <form @submit.prevent="submitForm">
         <p class="flex items-center mb-2">Supplier Name</p>
         <input
@@ -26,7 +27,7 @@
           placeholder="Address"
           class="border px-3 py-2 w-full mb-3"
         />
-        <div class="grid grid-cols-12 gap-2">
+        <div class="grid grid-cols-12 gap-2 mt-4">
           <button
             type="button"
             @click="$emit('close')"
@@ -34,7 +35,7 @@
           >
             Cancel
           </button>
-          <button type="submit" class="col-span-6 px-4 py-2 bg-blue-600 text-white rounded">
+          <button type="submit" class="col-span-6 px-4 py-2 bg-green-500 text-white rounded">
             {{ mode === 'edit' ? 'Update' : 'Save' }}
           </button>
         </div>
