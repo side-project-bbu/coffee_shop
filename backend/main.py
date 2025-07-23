@@ -144,7 +144,9 @@ async def get_category(category_id: int, db: Session = Depends(get_db)):
 
 @app.put("/api/categories/{category_id}", response_model=CategoryResponse)
 async def update_category(category_id: int, category: CategoryUpdate, db: Session = Depends(get_db)):
-    db_category = get_category(category_id, db)
+    db_category = db.query(Category).filter(Category.id == category_id).first()
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
     update_data = category.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_category, key, value)
@@ -154,7 +156,9 @@ async def update_category(category_id: int, category: CategoryUpdate, db: Sessio
 
 @app.delete("/api/categories/{category_id}", response_model=dict)
 async def delete_category(category_id: int, db: Session = Depends(get_db)):
-    db_category = get_category(category_id, db)
+    db_category = db.query(Category).filter(Category.id == category_id).first()
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
     db.delete(db_category)
     db.commit()
     return {"message": "Category deleted successfully"}
@@ -181,7 +185,9 @@ async def get_product(product_id: int, db: Session = Depends(get_db)):
 
 @app.put("/api/products/{product_id}", response_model=ProductResponse)
 async def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
-    db_product = get_product(product_id, db)
+    db_product = db.query(Product).options(joinedload(Product.category)).filter(Product.id == product_id).first()
+    if db_product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
     update_data = product.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_product, key, value)
@@ -191,7 +197,9 @@ async def update_product(product_id: int, product: ProductUpdate, db: Session = 
 
 @app.delete("/api/products/{product_id}", response_model=dict)
 async def delete_product(product_id: int, db: Session = Depends(get_db)):
-    db_product = get_product(product_id, db)
+    db_product = db.query(Product).filter(Product.id == product_id).first()
+    if db_product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
     db.delete(db_product)
     db.commit()
     return {"message": "Product deleted successfully"}
@@ -218,7 +226,9 @@ async def get_employee(employee_id: int, db: Session = Depends(get_db)):
 
 @app.put("/api/employees/{employee_id}", response_model=EmployeeResponse)
 async def update_employee(employee_id: int, employee: EmployeeUpdate, db: Session = Depends(get_db)):
-    db_employee = get_employee(employee_id, db)
+    db_employee = db.query(Employee).options(joinedload(Employee.role_obj)).filter(Employee.id == employee_id).first()
+    if db_employee is None:
+        raise HTTPException(status_code=404, detail="Employee not found")
     update_data = employee.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_employee, key, value)
@@ -228,7 +238,9 @@ async def update_employee(employee_id: int, employee: EmployeeUpdate, db: Sessio
 
 @app.delete("/api/employees/{employee_id}", response_model=dict)
 async def delete_employee(employee_id: int, db: Session = Depends(get_db)):
-    db_employee = get_employee(employee_id, db)
+    db_employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    if db_employee is None:
+        raise HTTPException(status_code=404, detail="Employee not found")
     db.delete(db_employee)
     db.commit()
     return {"message": "Employee deleted successfully"}
@@ -255,7 +267,9 @@ async def get_supplier(supplier_id: int, db: Session = Depends(get_db)):
 
 @app.put("/api/suppliers/{supplier_id}", response_model=SupplierResponse)
 async def update_supplier(supplier_id: int, supplier: SupplierUpdate, db: Session = Depends(get_db)):
-    db_supplier = get_supplier(supplier_id, db)
+    db_supplier = db.query(Supplier).filter(Supplier.id == supplier_id).first()
+    if db_supplier is None:
+        raise HTTPException(status_code=404, detail="Supplier not found")
     update_data = supplier.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_supplier, key, value)
@@ -265,7 +279,9 @@ async def update_supplier(supplier_id: int, supplier: SupplierUpdate, db: Sessio
 
 @app.delete("/api/suppliers/{supplier_id}", response_model=dict)
 async def delete_supplier(supplier_id: int, db: Session = Depends(get_db)):
-    db_supplier = get_supplier(supplier_id, db)
+    db_supplier = db.query(Supplier).filter(Supplier.id == supplier_id).first()
+    if db_supplier is None:
+        raise HTTPException(status_code=404, detail="Supplier not found")
     db.delete(db_supplier)
     db.commit()
     return {"message": "Supplier deleted successfully"}
@@ -292,7 +308,9 @@ async def get_role(role_id: int, db: Session = Depends(get_db)):
 
 @app.put("/api/roles/{role_id}", response_model=RoleResponse)
 async def update_role(role_id: int, role: RoleUpdate, db: Session = Depends(get_db)):
-    db_role = get_role(role_id, db)
+    db_role = db.query(Role).filter(Role.id == role_id).first()
+    if db_role is None:
+        raise HTTPException(status_code=404, detail="Role not found")
     update_data = role.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_role, key, value)
@@ -302,7 +320,9 @@ async def update_role(role_id: int, role: RoleUpdate, db: Session = Depends(get_
 
 @app.delete("/api/roles/{role_id}", response_model=dict)
 async def delete_role(role_id: int, db: Session = Depends(get_db)):
-    db_role = get_role(role_id, db)
+    db_role = db.query(Role).filter(Role.id == role_id).first()
+    if db_role is None:
+        raise HTTPException(status_code=404, detail="Role not found")
     db.delete(db_role)
     db.commit()
     return {"message": "Role deleted successfully"}

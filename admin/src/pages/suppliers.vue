@@ -46,16 +46,16 @@
         </tbody>
       </table>
     </div>
-  </div>
-
-  <!-- Modal -->
-  <ComAddsuppliers
+    
+    <!-- Modal -->
+    <ComAddsuppliers
     v-if="showModal"
     :supplier="selectedSupplier"
     :mode="formMode"
     @close="closeModal"
     @submitted="handleFormSubmit"
-  />
+    />
+  </div>
 </template>
 
 <script setup>
@@ -71,7 +71,7 @@ const formMode = ref('add')
 // Fetch all suppliers
 const fetchSuppliers = async () => {
   try {
-    const response = await axios.get('/api/suppliers') // Use proxy
+    const response = await axios.get('http://localhost:8000/api/suppliers')
     suppliers.value = response.data
   } catch (error) {
     console.error('Error fetching suppliers:', error)
@@ -82,7 +82,7 @@ const fetchSuppliers = async () => {
 const deleteSupplier = async (id) => {
   if (!confirm('Are you sure you want to delete this supplier?')) return
   try {
-    await axios.delete(`/api/suppliers/${id}`)
+    await axios.delete(`http://localhost:8000/api/suppliers/${id}`)
     suppliers.value = suppliers.value.filter(s => s.id !== id)
   } catch (error) {
     console.error('Error deleting supplier:', error)
