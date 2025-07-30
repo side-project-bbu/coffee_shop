@@ -21,18 +21,24 @@
 
       <div>
         <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Roles</h3>
-        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
-          <li
-            v-for="role in roles"
-            :key="role.id"
-            class="px-4 py-3 hover:bg-gray-50 transition cursor-default"
-          >
-            {{ role.name }}
-          </li>
-          <li v-if="roles.length === 0" class="px-4 py-3 text-gray-400 italic">
-            No roles found.
-          </li>
-        </ul>
+       <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
+  <li
+    v-for="role in roles"
+    :key="role.id"
+    class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition cursor-default"
+  >
+    <span>{{ role.name }}</span>
+    <button
+      @click="deleteRole(role.id)"
+      class="ml-4 px-3 py-1 text-red-500 transition"
+    >
+       <i class="fas fa-times"></i>
+    </button>
+  </li>
+  <li v-if="roles.length === 0" class="px-4 py-3 text-gray-400 italic">
+    No roles found.
+  </li>
+</ul>
       </div>
     </section>
 
@@ -57,18 +63,24 @@
 
       <div>
         <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Categories</h3>
-        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
-          <li
-            v-for="cat in categories"
-            :key="cat.id"
-            class="px-4 py-3 hover:bg-gray-50 transition cursor-default"
-          >
-            {{ cat.name }}
-          </li>
-          <li v-if="categories.length === 0" class="px-4 py-3 text-gray-400 italic">
-            No categories found.
-          </li>
-        </ul>
+       <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
+  <li
+    v-for="cat in categories"
+    :key="cat.id"
+    class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition cursor-default"
+  >
+    <span>{{ cat.name }}</span>
+    <button
+      @click="deleteCategory(cat.id)"
+      class="ml-4 px-3 py-1 text-red-500 transition"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </li>
+  <li v-if="categories.length === 0" class="px-4 py-3 text-gray-400 italic">
+    No categories found.
+  </li>
+</ul>
       </div>
     </section>
   </div>
@@ -124,6 +136,29 @@ async function createCategory() {
   } catch (err) {
     console.error(err)
     alert('Error adding category')
+  }
+}
+async function deleteRole(id) {
+  if (!confirm('Are you sure you want to delete this role?')) return
+  try {
+    await axios.delete(`http://localhost:8000/api/roles/${id}`)
+    fetchRoles()
+    alert('Role deleted successfully')
+  } catch (err) {
+    console.error(err)
+    alert('Error deleting role')
+  }
+}
+
+async function deleteCategory(id) {
+  if (!confirm('Are you sure you want to delete this category?')) return
+  try {
+    await axios.delete(`http://localhost:8000/api/categories/${id}`)
+    fetchCategories()
+    alert('Category deleted successfully')
+  } catch (err) {
+    console.error(err)
+    alert('Error deleting category')
   }
 }
 
