@@ -20,7 +20,7 @@
 </template>
 <script setup>
 function submit(){
-    alert("Hello")
+    alert("ចុចចោរអត់មាន password និង username ផងចង់ login ចូលបស់គេ!!!!!!");
 }
 //script
 </script>
@@ -51,7 +51,7 @@ function submit(){
     background-color: aqua;
     border: 1px solid black;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 50px;
     display: block;
     margin-left: auto;
     margin-right: auto;
