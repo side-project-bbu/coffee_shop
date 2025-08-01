@@ -20,7 +20,7 @@
 </template>
 <script setup>
 function submit(){
-    alert("ចុចចោរអត់មាន password និង username ផងចង់ login ចូលបស់គេ!!!!!!");
+    alert("ចុមចោរអត់មាន password និង username ផងចង់ login ចូលបស់គេ!!!!!!");
 }
 //script
 </script>
