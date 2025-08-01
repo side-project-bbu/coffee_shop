@@ -5,6 +5,7 @@ import Welcome from '../pages/welcome.vue'
 import Dashboard from '../pages/dashboard.vue'
 import Suppliers from '../pages/suppliers.vue'
 import Add from '../pages/add.vue'
+import Login from '../pages/FormLogin.vue'
 
 const routes = [
   { path: '/', name: 'Welcome', component: Welcome },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/suppliers', name: 'Suppliers', component: Suppliers },
   { path: '/add', name: 'Add', component: Add },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/login', name: 'Login', component: Login },
 ]
 
 const router = createRouter({
