@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen bg-white text-black flex flex-col items-start p-6">
-    <router-link to="/" class="text-2xl font-bold mb-10 hover:text-green-700 transition-colors">
+    <router-link to="/welcome" class="text-2xl font-bold mb-10 hover:text-green-700 transition-colors">
       Admin Panel
     </router-link>
     <ul class="w-full space-y-4">
