@@ -77,7 +77,7 @@ function handleLogin() {
   justify-content: center;
   box-shadow: 5px 5px 9px 0px rgb(0, 0, 0);
   margin: auto;
-  margin-top: 60px;
+  margin-top: 10%;
 }
 
 .formControl {
