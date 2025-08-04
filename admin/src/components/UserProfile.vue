@@ -22,22 +22,13 @@
     >
       <div class="p-4 space-y-5 text-sm text-white">
         <div>
-          <button type="button">
-            <i class="pi pi-user mr-3"></i>
-            <span>Profile</span>
-          </button>
+          <Profile />
         </div>
         <div>
-          <button type="button">
-            <i class="pi pi-globe mr-3"></i>
-            <span>Language</span>
-          </button>
+          <language />
         </div>
         <div>
-          <button type="button">
-            <i class="pi pi-cog mr-3"></i>
-            <span>Settings</span>
-          </button>
+          <Setting />
         </div>
         <div @click="Logout">
           <button type="button" class="text-red-500 hover:text-red-700">
@@ -53,7 +44,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import Setting from "../components/Setting.vue"
+import language from "../components/language.vue"
+import Profile from "../components/Profile.vue"
 const router = useRouter()
 // If using Vue Router, import below
 // import { useRouter } from 'vue-router'

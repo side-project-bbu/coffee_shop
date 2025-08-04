@@ -8,7 +8,7 @@ import Button from 'primevue/button'
 import Avatar from 'primevue/avatar';
 import Popover from 'primevue/popover';
 import OverlayPanel from 'primevue/overlaypanel'
-
+import Dialog from 'primevue/dialog';
 
 const app = createApp(App)
 
@@ -18,5 +18,6 @@ app.component('Button', Button);
 app.component('Avatar', Avatar);
 app.component('Popover', Popover);
 app.component('OverlayPanel', OverlayPanel);
+app.component('Dialog', Dialog);
 
 app.mount('#app')

@@ -21,13 +21,21 @@
             required
           />
           <p>Password</p>
-          <input
-            type="password"
-            placeholder="Password"
-            v-model="password"
-            class="formControl"
-            required
-          />
+          <div class="relative">
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              v-model="password"
+              class="formControl pr-10"  
+              required
+            />
+            <span
+              class="absolute right-3 mt-6 transform -translate-y-1/2 cursor-pointer text-gray-500"
+              @click="showPassword = !showPassword"
+            >
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </span>
+          </div>
           <br />
           <button type="submit" class="btnSubmit">Login</button>
         </div>
@@ -43,6 +51,7 @@ import { useRouter } from 'vue-router'
 const Username = ref('')
 const password = ref('')
 const router = useRouter()
+const showPassword = ref(false)
 
 function handleLogin() {
   if (Username.value === 'admin' && password.value === '123456') {
