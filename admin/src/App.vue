@@ -51,7 +51,7 @@ const pageTitle = computed(() => {
     case 'Add':
       return 'Add New Item'
     default:
-      return 'Wecome to the Coffee Shop Admin Panel!'
+      return 'Welcome to the Coffee Shop Admin Panel!'
   }
 })
 </script>

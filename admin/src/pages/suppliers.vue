@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center h-full text-center">
     <div class="flex justify-between items-center mb-6 w-full px-10">
-      <h1 class="text-3xl font-extrabold text-gray-800">Suppliers</h1>
+      <h1 class="text-3xl font-extrabold text-gray-800">{{ t('Supplier List') }}</h1>
     </div>
 
     <!-- Add button -->
@@ -17,11 +17,11 @@
       <table class="table-auto border-collapse w-full text-left bg-white shadow-md rounded-lg">
         <thead>
           <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-            <th class="py-3 px-6 border-b">ID</th>
-            <th class="py-3 px-6 border-b">Name</th>
-            <th class="py-3 px-6 border-b">Phone Number</th>
-            <th class="py-3 px-6 border-b">Address</th>
-            <th class="py-3 px-6 border-b">Actions</th>
+            <th class="py-3 px-6 border-b">{{ t('ID') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Name') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Phone Number') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Address') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -34,12 +34,12 @@
               <button 
                 @click="openEditForm(supplier)" 
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
-                Edit
+                {{ t('Edit') }}
               </button>
               <button 
                 @click="deleteSupplier(supplier.id)" 
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded ml-2">
-                Delete
+                {{ t('Delete') }}
               </button>
             </td>
           </tr>
@@ -62,6 +62,8 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import ComAddsuppliers from '../components/ComAddsuppliers.vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 const suppliers = ref([])
 const showModal = ref(false)

@@ -33,7 +33,7 @@
         <div @click="Logout">
           <button type="button" class="text-red-500 hover:text-red-700">
             <i class="pi pi-sign-out mr-3"></i>
-            <span>Logout</span>
+            <span>{{ t('Logout') }}</span>
           </button>
         </div>
       </div>
@@ -42,16 +42,16 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Setting from "../components/Setting.vue"
 import language from "../components/language.vue"
 import Profile from "../components/Profile.vue"
-const router = useRouter()
-// If using Vue Router, import below
-// import { useRouter } from 'vue-router'
 
-// const router = useRouter()
+
 const avatarWrapper = ref(null)
 const opRef = ref(null)
 

@@ -2,12 +2,12 @@
   <div class="max-w-5xl mx-auto py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
     <!-- Add Role Form + list -->
     <section class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Add New Role</h2>
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">{{ t('Add New Role') }}</h2>
       <form @submit.prevent="createRole" class="flex space-x-3 mb-6">
         <input
           v-model="roleName"
           type="text"
-          placeholder="Role name"
+          :placeholder="t('Role Name')"
           class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
         <button
@@ -15,12 +15,12 @@
           class="px-5 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
           :disabled="!roleName"
         >
-          Add Role
+          {{ t('Add Role') }}
         </button>
       </form>
 
       <div>
-        <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Roles</h3>
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">{{ t('Existing Roles') }}</h3>
        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
   <li
     v-for="role in roles"
@@ -36,7 +36,7 @@
     </button>
   </li>
   <li v-if="roles.length === 0" class="px-4 py-3 text-gray-400 italic">
-    No roles found.
+    {{ t('No roles found.') }}
   </li>
 </ul>
       </div>
@@ -44,12 +44,12 @@
 
     <!-- Add Category Form + list -->
     <section class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Add New Category</h2>
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">{{ t('Add New Category') }}</h2>
       <form @submit.prevent="createCategory" class="flex space-x-3 mb-6">
         <input
           v-model="categoryName"
           type="text"
-          placeholder="Category name"
+          :placeholder="t('Category Name')"
           class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
         />
         <button
@@ -57,12 +57,12 @@
           class="px-5 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
           :disabled="!categoryName"
         >
-          Add Category
+          {{ t('Add Category') }}
         </button>
       </form>
 
       <div>
-        <h3 class="text-lg font-semibold mb-3 text-gray-700">Existing Categories</h3>
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">{{ t('Existing Categories') }}</h3>
        <ul class="divide-y divide-gray-200 border border-gray-100 rounded-md overflow-hidden">
   <li
     v-for="cat in categories"
@@ -78,7 +78,7 @@
     </button>
   </li>
   <li v-if="categories.length === 0" class="px-4 py-3 text-gray-400 italic">
-    No categories found.
+    {{ t('No categories found.') }}
   </li>
 </ul>
       </div>
@@ -89,6 +89,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 const roleName = ref('')
 const categoryName = ref('')

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center h-full text-center">
     <div class="flex justify-between items-center mb-6 w-full px-10">
-      <h1 class="text-3xl font-extrabold text-gray-800">Employee List</h1>
+      <h1 class="text-3xl font-extrabold text-gray-800">{{ t('Employee List') }}</h1>
       <button @click="addNewEmployee" class="fixed bottom-8 right-8 z-50 bg-blue-500 hover:bg-blue-600 text-white font-bold w-16 h-16 flex items-center justify-center text-4xl rounded-full shadow-lg p-0">
         <span class="w-full h-full flex items-center justify-center mb-2">+</span>
       </button>
@@ -12,11 +12,11 @@
         <thead>
           <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th class="py-3 px-6 border-b">ID</th>
-            <th class="py-3 px-6 border-b">Name</th>
-            <th class="py-3 px-6 border-b">Role</th>
-            <th class="py-3 px-6 border-b">Active</th>
+            <th class="py-3 px-6 border-b">{{ t('Name') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Role') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Active') }}</th>
             <th class="py-3 px-6 border-b"></th>
-            <th class="py-3 px-6 border-b">Actions</th>
+            <th class="py-3 px-6 border-b">{{ t('Actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,10 +29,10 @@
             <td class="py-3 px-6 border-b">
               <div class="flex gap-2">
                  <button @click="editEmployee(employee)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 w-20 rounded">
-                  Edit
+                  {{ t('Edit') }}
                 </button>
                 <button @click="confirmDelete(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 w-20 rounded">
-                  Delete
+                  {{ t('Delete') }}
                 </button>
               </div>
             </td>
@@ -55,6 +55,8 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import ComAddEmployee from '../components/AddEmployee.vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 const showModal = ref(false)
 const employees = ref([])

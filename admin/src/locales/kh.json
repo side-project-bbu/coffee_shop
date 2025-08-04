@@ -1,0 +1,52 @@
+{
+  "language": "ភាសា",
+  "changeLanguage": "ប្ដូរភាសា",
+  "english": "អង់គ្លេស",
+  "khmer": "ភាសាខ្មែរ",
+  "Dashboard": "ផ្ទាំងគ្រប់គ្រង",
+  "Employee": "បុគ្គលិក",
+  "Products": "ផលិតផល",
+  "Supplier": "អ្នកផ្គត់ផ្គង់",
+  "Add New Item": "បន្ថែមធាតុថ្មី",
+  "Admin Panel": "ផ្ទាំងគ្រប់គ្រង",
+    "Welcome to the Coffee Shop Admin Panel!": "សូមស្វាគមន៍មកកាន់ផ្ទាំងគ្រប់គ្រងហាងកាហ្វេ!",
+    "Profile": "ប្រវត្តិរូប",
+    "Logout": "ចាកចេញ",
+    "Employee List": "បញ្ជីបុគ្គលិក",
+    "Name": "ឈ្មោះ",
+    "Settings": "ការកំណត់",
+    "Role": "តួនាទី",
+    "Active": "សកម្ម",
+    "Actions": "សកម្មភាព",
+    "Edit": "កែប្រែ",
+    "Delete": "លុប",
+    "Product List": "បញ្ជីផលិតផល",
+    "Price": "តម្លៃ",
+    "Category": "ប្រភេទ",
+    "Available": "មានស្រាប់",
+    
+    "Add New Product": "បន្ថែមផលិតផលថ្មី",
+    "Supplier List": "បញ្ជីអ្នកផ្គត់ផ្គង់",
+    "ID": "លេខសម្គាល់",
+    "Phone Number": "លេខទូរស័ព្ទ",
+    "Address": "អាសយដ្ឋាន",
+    "Add New Supplier": "បន្ថែមអ្នកផ្គត់ផ្គង់ថ្មី",
+    "Save": "រក្សាទុក",
+    "Cancel": "បោះបង់",
+    "Are you sure you want to delete this item?": "តើអ្នកប្រាកដជាចង់លុបធាតុនេះទេ?",
+    "Add New Role": "បន្ថែមតួនាទីថ្មី",
+    "Role Name": "ឈ្មោះតួនាទី",
+    "Add Role": "បន្ថែមតួនាទី",
+    "Category Name": "ឈ្មោះប្រភេទ",
+    "Add New Category": "បន្ថែមប្រភេទថ្មី",
+    "Existing Categories": "ប្រភេទដែលមានស្រាប់",
+    "No categories found.": "មិនមានប្រភេទណាមួយទេ។",
+    "Add Category": "បន្ថែមប្រភេទ",
+    "No roles found.": "មិនមានតួនាទីណាមួយទេ។",
+    "Existing Roles": "តួនាទីដែលមានស្រាប់"
+
+    
+
+    
+
+}

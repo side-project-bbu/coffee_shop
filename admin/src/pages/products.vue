@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center h-full text-center">
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Product List</h1>
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">{{ t('Product List') }}</h1>
 
     <!-- Add Product Button (Floating, bottom right) -->
     <button
@@ -16,11 +16,11 @@
         <thead>
           <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th class="py-3 px-6 border-b">ID</th>
-            <th class="py-3 px-6 border-b">Name</th>
-            <th class="py-3 px-6 border-b">Price</th>
-            <th class="py-3 px-6 border-b">Category</th>
-            <th class="py-3 px-6 border-b">Available</th>
-            <th class="py-3 px-6 border-b">Actions</th>
+            <th class="py-3 px-6 border-b">{{ t('Name') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Price') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Category') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Available') }}</th>
+            <th class="py-3 px-6 border-b">{{ t('Actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -36,12 +36,12 @@
               <button 
                 @click="openEditForm(product)" 
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 w-20 rounded">
-                Edit
+                {{ t('Edit') }}
               </button>
               <button 
                 @click="deleteProduct(product.id)" 
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 w-20 rounded">
-                Delete
+                {{ t('Delete') }}
               </button>
             </td>
           </tr>
@@ -64,6 +64,8 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import ComAddproduct from '../components/Addproduct.vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 const products = ref([])
 const showModal = ref(false)
