@@ -7,7 +7,7 @@
 
     <div
       v-if="visible"
-      class="fixed inset-0 z-50 flex items-center justify-center  bg-black"
+      class="fixed inset-0 z-50 flex items-center justify-center  "
       @click.self="visible = false"
     >
       <div class="bg-white p-6 rounded shadow-md">
@@ -19,7 +19,7 @@
         >
           <div class="flex items-center gap-3">
             <img src="/Images/united-kingdom.png" class="w-7 h-7" />
-            <span>{{ t('english') }}</span>
+            <span class="text-black">{{ t('english') }}</span>
           </div>
         </button>
 
@@ -29,7 +29,7 @@
         >
           <div class="flex items-center gap-3">
             <img src="/Images/flag.png" class="w-7 h-7" />
-            <span>{{ t('khmer') }}</span>
+            <span class="text-black">{{ t('khmer') }}</span>
           </div>
         </button>
       </div>
