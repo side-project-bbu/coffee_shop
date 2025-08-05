@@ -51,7 +51,7 @@ import Setting from "../components/Setting.vue"
 import language from "../components/language.vue"
 import Profile from "../components/Profile.vue"
 
-
+const router = useRouter()
 const avatarWrapper = ref(null)
 const opRef = ref(null)
 
