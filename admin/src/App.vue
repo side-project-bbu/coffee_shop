@@ -28,6 +28,8 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 import { useRoute } from 'vue-router'
 import Sidebar from './components/sidebar.vue'
 import Header from './components/header.vue'
@@ -39,19 +41,19 @@ const hideLayout = computed(() => route.name === 'Login')
 
 // Dynamic page title
 const pageTitle = computed(() => {
-  switch (route.name) {
+   switch (route.name) {
     case 'Employee':
-      return 'Employee Management'
+      return t('Employee Management')
     case 'Products':
-      return 'Product Management'
+      return t('Product Management')
     case 'Dashboard':
-      return 'Dashboard'
+      return t('Dashboard')
     case 'Suppliers':
-      return 'Supplier Management'
+      return t('Supplier Management')
     case 'Add':
-      return 'Add New Item'
+      return t('Add New Item')
     default:
-      return 'Welcome to the Coffee Shop Admin Panel!'
+      return t('Welcome to the Coffee Shop Admin Panel!')
   }
 })
 </script>
