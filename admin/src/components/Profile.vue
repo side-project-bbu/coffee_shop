@@ -1,16 +1,19 @@
 <template>
-    <button type="button" @click="btnProfile" >
-            <i class="pi pi-user mr-3"></i>
-            <span>{{ t('Profile') }}</span>
+  <div>
+    <button type="button" @click="showProfile = true">
+      <i class="pi pi-user mr-3"></i>
+      <span>{{ t('Profile') }}</span>
     </button>
-</template>
-<script setup>
-import { useI18n } from "vue-i18n";
-import { useRouter } from 'vue-router'
-const { t, locale } = useI18n();
-const router = useRouter()
 
-function btnProfile() {
-    router.push('/InformationUser')
-}
+    <InformationUser v-if="showProfile" @close="showProfile = false" />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import InformationUser from './InformationUser.vue'
+
+const { t } = useI18n()
+const showProfile = ref(false)
 </script>

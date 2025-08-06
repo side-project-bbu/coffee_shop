@@ -24,8 +24,7 @@
     "Price": "តម្លៃ",
     "Category": "ប្រភេទ",
     "Available": "មានស្រាប់",
-    "Hello world": "សួស្តីពិភពលោក",
-    
+    "Hello world": "សួស្តីពិភពលោក", 
     "Add New Product": "បន្ថែមផលិតផលថ្មី",
     "Supplier List": "បញ្ជីអ្នកផ្គត់ផ្គង់",
     "ID": "លេខសម្គាល់",
@@ -44,7 +43,24 @@
     "No categories found.": "មិនមានប្រភេទណាមួយទេ។",
     "Add Category": "បន្ថែមប្រភេទ",
     "No roles found.": "មិនមានតួនាទីណាមួយទេ។",
-    "Existing Roles": "តួនាទីដែលមានស្រាប់"
+    "Existing Roles": "តួនាទីដែលមានស្រាប់",
+    "First Name":"នាមខ្លួន",
+    "Last Name":"នាមត្រកូល",
+    "Select Role":"ជ្រើសរើសតួនាទី",
+    "Is Active":"សកម្ម",
+    "Update":"ធ្វើបច្ចុប្បន្នភាព",
+    "Add Employee":"បន្ថែមបុគ្គលិក",
+    "Edit Product":"កែប្រែផលិតផល",
+    "Add Product":"បញ្ចូលផលិតផល",
+    "Product Name":"បញ្ចូលផលិតផល",
+    "Select Category":"ជ្រើសរើស​ប្រភេទ",
+    "Add Supplier": "បញ្ចូលអ្នកផ្គត់ផ្គង់",
+    "Edit Supplier":"កែប្រែអ្នកផ្គត់ផ្គង់",
+    "Supplier Name":"ឈ្មោះអ្នកផ្គត់ផ្គង់",
+    "":""
+
+    
+    
 
     
 

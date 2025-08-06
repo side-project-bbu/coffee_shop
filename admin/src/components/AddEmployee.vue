@@ -2,22 +2,23 @@
   <div class="fixed inset-0 flex items-center justify-center z-50" style="background-color: rgba(0,0,0,0.4);">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
       <h2 class="text-xl font-bold mb-4">
-        {{ mode === 'edit' ? 'Edit Employee' : 'Add Employee' }}
+       {{ mode === 'edit' ? t('Edit Employee') : t('Add Employee') }}
+
       </h2>
       <form @submit.prevent="submitForm">
-        <p class="flex items-center mb-2">First Name</p>
-        <input type="text" v-model="firstName" placeholder="First Name" class="border border-gray-400 px-3 py-2 w-full mb-3" />
-        <p class="flex items-center mb-2">Last Name</p>
-        <input type="text" v-model="lastName" placeholder="Last Name" class="border border-gray-400 px-3 py-2 w-full mb-3" />
-        <p class="flex items-center mb-2">Select Role</p>
+        <p class="flex items-center mb-2">{{ t("First Name")}}</p>
+        <input type="text" v-model="firstName" :placeholder="t('First Name')"class="border border-gray-400 px-3 py-2 w-full mb-3" />
+        <p class="flex items-center mb-2">{{t("Last Name")}}</p>
+        <input type="text" v-model="lastName" :placeholder="t('Last Name')" class="border border-gray-400 px-3 py-2 w-full mb-3" />
+        <p class="flex items-center mb-2">{{t("Role")}}</p>
         <select v-model="role" class="border border-gray-400 px-3 py-2 w-full mb-3">
-          <option value="" disabled>Select Role</option>
+          <option value="" disabled>{{t("Select Role")}}</option>
           <option v-for="r in roles" :key="r.id" :value="r.id">{{ r.name }}</option>
         </select>
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="isActive" v-model="isActive" class="mr-2">
-          <label for="isActive">Is Active</label>
+          <label for="isActive">{{t("Is Active")}}</label>
         </div>
         
         <div class="grid grid-cols-12 gap-2">
@@ -27,13 +28,13 @@
               @click="$emit('close')"
               class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
             >
-              Cancel
+              {{t("Cancel")}}
             </button>
             <button
               type="submit"
               class="col-span-6 px-4 py-2 bg-green-600 text-white rounded"
             >
-              Update
+              {{t("Update")}}
             </button>
           </template>
           <template v-else>
@@ -42,13 +43,13 @@
               @click="$emit('close')"
               class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
             >
-              Cancel
+              {{t("Cancel")}}
             </button>
             <button
               type="submit"
               class="col-span-6 px-4 py-2 bg-green-500 text-white rounded"
             >
-              Save
+              {{t("Save")}}
             </button>
           </template>
         </div>
@@ -59,6 +60,8 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 import axios from 'axios'
 
 const props = defineProps({

@@ -2,29 +2,29 @@
   <div class="fixed inset-0 flex items-center justify-center z-50" style="background-color: rgba(0,0,0,0.4);">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
       <h2 class="text-xl font-bold mb-4 text-center">
-  {{ mode === 'edit' ? 'Edit Supplier' : 'Add Supplier' }}
+  {{ mode === 'edit' ? t('Edit Supplier') : t('Add Supplier') }}
 </h2>
 
       <form @submit.prevent="submitForm">
-        <p class="flex items-center mb-2">Supplier Name</p>
+        <p class="flex items-center mb-2">{{t("Supplier Name")}}</p>
         <input
           type="text"
           v-model="name"
-          placeholder="Supplier Name"
+          :placeholder="t('Supplier Name')"
           class="border px-3 py-2 w-full mb-3"
         />
-        <p class="flex items-center mb-2">Phone Number</p>
+        <p class="flex items-center mb-2">{{t("Phone Number")}}</p>
         <input
           type="text"
           v-model="phone_number"
-          placeholder="Phone Number"
+          :placeholder="t('Phone Number')"
           class="border px-3 py-2 w-full mb-3"
         />
-        <p class="flex items-center mb-2">Address</p>
+        <p class="flex items-center mb-2">{{t("Address")}}</p>
         <input
           type="text"
           v-model="address"
-          placeholder="Address"
+          :placeholder="t('Address')"
           class="border px-3 py-2 w-full mb-3"
         />
         <div class="grid grid-cols-12 gap-2 mt-4">
@@ -33,10 +33,10 @@
             @click="$emit('close')"
             class="col-span-6 px-4 py-2 bg-red-500 text-white rounded"
           >
-            Cancel
+           {{t("Cancel")}}
           </button>
           <button type="submit" class="col-span-6 px-4 py-2 bg-green-500 text-white rounded">
-            {{ mode === 'edit' ? 'Update' : 'Save' }}
+            {{ mode === 'edit' ? t('Update') : t('Save') }}
           </button>
         </div>
       </form>
@@ -46,6 +46,8 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 import axios from 'axios'
 
 // Props

@@ -11,7 +11,7 @@
       <table class="table-auto border-collapse w-full text-left bg-white shadow-md rounded-lg">
         <thead>
           <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-            <th class="py-3 px-6 border-b">ID</th>
+            <th class="py-3 px-6 border-b">{{ t('ID')}}</th>
             <th class="py-3 px-6 border-b">{{ t('Name') }}</th>
             <th class="py-3 px-6 border-b">{{ t('Role') }}</th>
             <th class="py-3 px-6 border-b">{{ t('Active') }}</th>

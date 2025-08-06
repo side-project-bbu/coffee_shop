@@ -2,26 +2,26 @@
   <div class="fixed inset-0 flex items-center justify-center z-50" style="background-color: rgba(0,0,0,0.4);">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
       <h2 class="text-xl font-bold mb-4">
-        {{ mode === 'edit' ? 'Edit Product' : 'Add Product' }}
+        {{ mode === 'edit' ? t('Edit Product') : t('Add Product') }}
       </h2>
       <form @submit.prevent="submitForm">
-        <p class="flex items-center mb-2">Product Name</p>
+        <p class="flex items-center mb-2">{{t("Product Name")}}</p>
         <input
           type="text"
           v-model="name"
-          placeholder="Product Name"
+          :placeholder="t('Product Name')"
           class="border px-3 py-2 w-full mb-3"
         />
-        <p class="flex items-center mb-2">Price</p>
+        <p class="flex items-center mb-2">{{t("Price")}}</p>
         <input
           type="number"
           v-model="price"
-          placeholder="Price"
+          :placeholder="t('Price')"
           class="border px-3 py-2 w-full mb-3"
         />
-        <p class="flex items-center mb-2">Select Category</p>
+        <p class="flex items-center mb-2">{{t("Category")}}</p>
         <select v-model="category" class="border px-3 py-2 w-full mb-3">
-          <option value="" disabled>Select Category</option>
+          <option value="" disabled>{{t("Select Category")}}</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">
             {{ cat.name }}
           </option>
@@ -29,7 +29,7 @@
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="isAvailable" v-model="isAvailable" class="mr-2" />
-          <label for="isAvailable">Available</label>
+          <label for="isAvailable">{{t("Available")}}</label>
         </div>
 
         <div class="flex gap-2">
@@ -38,13 +38,13 @@
             @click="$emit('close')"
             class="flex-1 px-4 py-2 bg-red-500 text-white rounded"
           >
-            Cancel
+            {{t("Cancel")}}
           </button>
           <button
             type="submit"
             class="flex-1 px-4 py-2 bg-green-600 text-white rounded"
           >
-            {{ mode === 'edit' ? 'Update' : 'Save' }}
+            {{ mode === 'edit' ? t('Update') : t('Save') }}
           </button>
         </div>
       </form>
@@ -54,8 +54,10 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 
+const { t, locale } = useI18n()
 const props = defineProps({
   product: {
     type: Object,
